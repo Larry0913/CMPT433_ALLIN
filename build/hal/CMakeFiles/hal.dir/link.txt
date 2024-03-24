@@ -1,0 +1,2 @@
+/usr/bin/arm-linux-gnueabihf-ar qc libhal.a CMakeFiles/hal.dir/src/joystick.c.o
+/usr/bin/arm-linux-gnueabihf-ranlib libhal.a

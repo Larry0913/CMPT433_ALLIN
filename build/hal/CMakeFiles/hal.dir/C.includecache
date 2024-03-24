@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../app/include/threadController.h
+
+../hal/include/joystick.h
+
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src/joystick.c
+stdlib.h
+-
+stdio.h
+-
+stdbool.h
+-
+pthread.h
+-
+joystick.h
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src/joystick.h
+threadController.h
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src/threadController.h
+

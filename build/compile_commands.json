@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/hal",
+  "command": "/usr/bin/arm-linux-gnueabihf-gcc  -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/include -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/include -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/hal/include -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -std=gnu11 -o CMakeFiles/hal.dir/src/joystick.c.o -c /home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src/joystick.c",
+  "file": "/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src/joystick.c"
+},
+{
+  "directory": "/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/app",
+  "command": "/usr/bin/arm-linux-gnueabihf-gcc  -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/include -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/include -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -std=gnu11 -o CMakeFiles/allin.dir/src/main.c.o -c /home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/main.c",
+  "file": "/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/main.c"
+},
+{
+  "directory": "/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/app",
+  "command": "/usr/bin/arm-linux-gnueabihf-gcc  -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/include -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/include -I/home/lingjie/cmpt433/work/CMPT433_ALLIN/hal/src -g -Wall -Werror -Wpedantic -Wextra -fdiagnostics-color -std=gnu11 -o CMakeFiles/allin.dir/src/threadController.c.o -c /home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/threadController.c",
+  "file": "/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/threadController.c"
+}
+]
