@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../app/include/threadController.h
+
+../hal/include/joystick.h
+
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/main.c
+stdio.h
+-
+stdlib.h
+-
+threadController.h
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/threadController.h
+
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/threadController.c
+stdlib.h
+-
+stdio.h
+-
+pthread.h
+-
+time.h
+-
+threadController.h
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/threadController.h
+joystick.h
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/app/src/joystick.h
+

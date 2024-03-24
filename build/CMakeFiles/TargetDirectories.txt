@@ -1,0 +1,8 @@
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/CMakeFiles/rebuild_cache.dir
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/CMakeFiles/edit_cache.dir
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/hal/CMakeFiles/rebuild_cache.dir
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/hal/CMakeFiles/edit_cache.dir
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/hal/CMakeFiles/hal.dir
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/app/CMakeFiles/rebuild_cache.dir
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/app/CMakeFiles/edit_cache.dir
+/home/lingjie/cmpt433/work/CMPT433_ALLIN/build/app/CMakeFiles/allin.dir
