@@ -1,6 +1,6 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-static void runCommand(char*);
+void __attribute__((optimize("O0"))) runCommand(char*);
 
 #endif

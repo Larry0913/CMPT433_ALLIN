@@ -1,0 +1,1 @@
+/usr/bin/arm-linux-gnueabihf-gcc -g CMakeFiles/allin.dir/src/main.c.o CMakeFiles/allin.dir/src/threadController.c.o -o allin  ../hal/libhal.a -lpthread 
