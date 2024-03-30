@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void __attribute__((optimize("O0"))) runCommand(char* command)
+void runCommand(char* command)
 {
     // Execute the shell command (output into pipe)
     FILE *pipe = popen(command, "r");
