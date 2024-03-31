@@ -29,14 +29,12 @@ void* trafficOutThread(void* _arg){
     (void)_arg;
 
     sleepForMs(50); // prevent premature error
-    int previous = getLightIntensity();
 
     while(running_flag){
-        if(previous - getLightIntensity() >= 500){ // laser for OUT
-            if (peopleCount >= 1){ // prevent getting nagative count
+        if(getLightIntensity() <= 3800){ 
+            if (peopleCount > 0){ // prevent getting nagative count
                 peopleCount -= 1;
             }
-            previous = getLightIntensity();
             
             sleepForMs(1000); // prevent repeated count
         }
