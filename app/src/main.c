@@ -6,6 +6,6 @@
 int main ()
 {
     printf("hello CMPT433_ALLIN Project!\n");
-    //startProgram();
+    startProgram();
     return 0;
 }
