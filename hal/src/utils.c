@@ -57,9 +57,13 @@ void sleepForMs(long long delayInMs) { // from Brian
 }
 
 
-void writeToFile(char* fileName, char* value) {
+void writeToFile(char* fileName, int value) {
 	FILE* file = fopen(fileName, "w");
-	int charWritten = fprintf(file, "%s", value);
+    if (file == NULL) {
+        printf("ERROR OPENING %s.\n", fileName);
+        exit(-1);
+    }
+	int charWritten = fprintf(file, "%d", value);
 	if (charWritten <= 0) printf("ERROR WRITING DATA");
 	fclose(file);
 }

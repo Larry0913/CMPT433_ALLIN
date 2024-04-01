@@ -60,7 +60,7 @@ void* udpThread(void* _arg){
             const char *ack = "BBG shutdown";
             sendto(sockfd, ack, strlen(ack), 0, (const struct sockaddr *) &clientAddr, len);
             printf("Shutting down server.\n");
-            running_flag = false;
+            stopProgram();
         }
 
         if(!running_flag){

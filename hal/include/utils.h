@@ -7,7 +7,7 @@ int readFromFileToScreen(char*);
 
 void sleepForMs(long long);
 
-void writeToFile(char*, char*);
+void writeToFile(char*, int);
 
 int initI2cBus(char* , int );
 

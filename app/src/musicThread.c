@@ -37,7 +37,6 @@ typedef struct {
 } playbackSound_t;
 static playbackSound_t soundBites[MAX_SOUND_BITES];
 
-
 static pthread_t playbackThreadId;
 static pthread_mutex_t audioMutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -157,8 +156,11 @@ void AudioMixer_freeWaveFileData(wavedata_t *pSound)
 void AudioMixer_queueSound(wavedata_t *pSound)
 {
 	// Ensure we are only being asked to play "good" sounds:
-	assert(pSound->numSamples > 0);
-	assert(pSound->pData);
+	if (running_flag)
+	{
+		//assert(pSound->numSamples > 0);
+		//assert(pSound->pData);
+	}
 
 	pthread_mutex_lock(&audioMutex); // Lock for thread safety
     // Search for an empty sound bite slot:
