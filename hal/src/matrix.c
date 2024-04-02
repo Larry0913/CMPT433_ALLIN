@@ -7,6 +7,8 @@
 #include "utils.h"
 #include "threadController.h"
 #include "I2C.h"
+#include "joystick.h"
+#include "trafficControl.h"
 
 static pthread_t matrix_id;
 static int i2cFileDesc;
@@ -14,6 +16,7 @@ ShowMode currentMode = PEOPLE_MODE;
 
 static void showPeopleMode();
 static void showTempMode();
+static void showSmileMode();
 
 //configure and init
 void matrix_init()
@@ -26,6 +29,8 @@ void matrix_init()
     writeI2cReg(i2cFileDesc, REG_STARTUP, 0x00);
     writeI2cReg(i2cFileDesc, REG_NOFLASH, 0x00);
 
+    printf("Default mode is People count!\n");
+
     pthread_create(&matrix_id, NULL, matrixThread, NULL);
 }
 
@@ -37,7 +42,7 @@ void matrix_wait()
 
 //clean up malloc variable
 void matrix_cleanup(void)
-{
+{   
     writeI2cReg(i2cFileDesc, REG_ROW1, OFF_I2C);
     writeI2cReg(i2cFileDesc, REG_ROW2, OFF_I2C);
     writeI2cReg(i2cFileDesc, REG_ROW3, OFF_I2C);
@@ -46,6 +51,7 @@ void matrix_cleanup(void)
     writeI2cReg(i2cFileDesc, REG_ROW6, OFF_I2C);
     writeI2cReg(i2cFileDesc, REG_ROW7, OFF_I2C);
     writeI2cReg(i2cFileDesc, REG_ROW8, OFF_I2C);
+
 }
 
 //thread function
@@ -61,6 +67,8 @@ void *matrixThread(void *args)
             case TEMP_MODE:
                 showTempMode();
                 break;
+            case SMILE_MODE:
+                showSmileMode();
             default:
                 break;
         }
@@ -78,35 +86,61 @@ ShowMode getCurrentMode()
 
 static void showPeopleMode()
 {
-    writeI2cReg(i2cFileDesc, REG_ROW1, 0x55);
-    writeI2cReg(i2cFileDesc, REG_ROW2, 0x55);
-    writeI2cReg(i2cFileDesc, REG_ROW3, 0x55);
-    writeI2cReg(i2cFileDesc, REG_ROW4, 0x55);
-    writeI2cReg(i2cFileDesc, REG_ROW5, 0x55);
-    writeI2cReg(i2cFileDesc, REG_ROW6, 0x55);
-    writeI2cReg(i2cFileDesc, REG_ROW7, 0x55);
-    writeI2cReg(i2cFileDesc, REG_ROW8, 0x55);
+    writeI2cReg(i2cFileDesc, REG_ROW8, OFF_I2C);
+    writeI2cReg(i2cFileDesc, REG_ROW7, 0x7f);
+    writeI2cReg(i2cFileDesc, REG_ROW6, 0x5b);
+    writeI2cReg(i2cFileDesc, REG_ROW5, 0x7f);
+    writeI2cReg(i2cFileDesc, REG_ROW4, 0x49);
+    writeI2cReg(i2cFileDesc, REG_ROW3, 0xc9);
+    writeI2cReg(i2cFileDesc, REG_ROW2, OFF_I2C);
+    writeI2cReg(i2cFileDesc, REG_ROW1, OFF_I2C);
 } 
 
 static void showTempMode()
 {
-    writeI2cReg(i2cFileDesc, REG_ROW1, 0x44);
-    writeI2cReg(i2cFileDesc, REG_ROW2, 0x44);
-    writeI2cReg(i2cFileDesc, REG_ROW3, 0x44);
-    writeI2cReg(i2cFileDesc, REG_ROW4, 0x44);
-    writeI2cReg(i2cFileDesc, REG_ROW5, 0x44);
-    writeI2cReg(i2cFileDesc, REG_ROW6, 0x44);
-    writeI2cReg(i2cFileDesc, REG_ROW7, 0x44);
-    writeI2cReg(i2cFileDesc, REG_ROW8, 0x44);
+    writeI2cReg(i2cFileDesc, REG_ROW8, 0xf7);
+    writeI2cReg(i2cFileDesc, REG_ROW7, 0x27);
+    writeI2cReg(i2cFileDesc, REG_ROW6, 0xa7);
+    writeI2cReg(i2cFileDesc, REG_ROW5, 0xa3);
+    writeI2cReg(i2cFileDesc, REG_ROW4, 0xcb);
+    writeI2cReg(i2cFileDesc, REG_ROW3, 0xfa);
+    writeI2cReg(i2cFileDesc, REG_ROW2, 0xcb);
+    writeI2cReg(i2cFileDesc, REG_ROW1, 0x4a);
+} 
+
+static void showSmileMode()
+{
+    writeI2cReg(i2cFileDesc, REG_ROW8, 0x1e);
+    writeI2cReg(i2cFileDesc, REG_ROW7, 0x21);
+
+    writeI2cReg(i2cFileDesc, REG_ROW6, 0xd2);
+
+    writeI2cReg(i2cFileDesc, REG_ROW5, 0xc0);
+
+    writeI2cReg(i2cFileDesc, REG_ROW4, 0xd2);
+    writeI2cReg(i2cFileDesc, REG_ROW3, 0xcc);
+
+    writeI2cReg(i2cFileDesc, REG_ROW2, 0x21);
+    writeI2cReg(i2cFileDesc, REG_ROW1, 0x1e);
 } 
 
 void setPeopleMode() {
-    printf("Current mode is people count\n");
+    int count = getCurrentPeopleCount();
+    printf("Current mode is People count and %d people in the room now!\n", count);
     currentMode = PEOPLE_MODE;
+    setModeNum();
 }
 
 void setTempMode() {
-    printf("Current mode is temperature!\n");
+    int temp = 36;
+    printf("Current mode is Temperature and it's %d degrees!\n", temp);
     currentMode = TEMP_MODE;
+    setModeNum();
+}
+
+void setSmileMode() {
+    printf("Current mode is Smile!\n");
+    currentMode = SMILE_MODE;
+    setModeNum();
 }
 
