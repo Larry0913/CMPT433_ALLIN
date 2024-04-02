@@ -16,4 +16,8 @@ void joystick_cleanup(void);
 //thread function
 void *joystickThread(void *args);
 
+int getModeNum();
+
+void setModeNum();
+
 #endif

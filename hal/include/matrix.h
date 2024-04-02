@@ -19,6 +19,7 @@
 typedef enum {
     PEOPLE_MODE,
     TEMP_MODE,
+    SMILE_MODE
 } ShowMode;
 
 //configure and init
@@ -40,5 +41,7 @@ void setPeopleMode();
 
 // set matrix to temperature mode
 void setTempMode();
+
+void setSmileMode();
 
 #endif

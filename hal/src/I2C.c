@@ -83,7 +83,13 @@ void *I2CDisplayThread(void *args)
         }
         else if(curMode == TEMP_MODE)
         {
-            showNum = 0;
+            showNum = 36;
+        }
+        else if(curMode == SMILE_MODE)
+        {
+            writeToFile(I2C_LEFT_DIGIT_PATH, OFF_I2C);
+            writeToFile(I2C_RIGHT_DIGIT_PATH, OFF_I2C);
+            continue;
         }
 
         if(showNum > 99)

@@ -9,7 +9,7 @@
 #include "matrix.h"
 
 static pthread_t joystick_id;
-int modeNum = 1000;
+int modeNum = 999;
 
 static bool isPressed(enum joystick direction);
 static void processMode(int mode);
@@ -49,17 +49,18 @@ void *joystickThread(void *args)
     {
         if (isPressed(UP))
         {
+            printf("Joystick UP!\n");
             modeNum += 1;
             processMode(modeNum);
-            printf("Joystick UP!\n");
             sleepForMs(300);
         }
         else if (isPressed(DOWN))
         {
+            printf("Joystick DOWN!\n");
             modeNum -= 1;
             processMode(modeNum);
             sleepForMs(300);
-            printf("Joystick DOWN!\n");
+            
         }
         else if (isPressed(RIGHT))
         {
@@ -91,14 +92,46 @@ static bool isPressed(enum joystick direction)
 
 static void processMode(int mode)
 {
-    if (mode % 2 == 0)
+    if (mode % 3 == 0)
     {
         setPeopleMode();
     }
-    else if (mode % 2 != 0)
+    else if (mode % 3 == 2)
     {
         setTempMode();
     }
+    else
+    {
+        setSmileMode();
+    }
 }
 
+int getModeNum()
+{
+    return modeNum;
+}
+
+void setModeNum()
+{
+    ShowMode curMode = getCurrentMode();
+    if (curMode == PEOPLE_MODE && modeNum %3 != 0)
+    {
+        modeNum += 1;
+        if (modeNum %3 != 0)
+            modeNum += 1;
+    }
+    else if (curMode == TEMP_MODE && modeNum %3 != 2)
+    {
+        modeNum += 1;
+        if (modeNum %3 != 1)
+            modeNum += 1;
+    } 
+    else if (curMode == SMILE_MODE && modeNum %3 != 1)
+    {
+        modeNum += 1;
+        if (modeNum %3 != 2)
+            modeNum += 1;
+    } 
+    //printf("mode num is: %d\n", modeNum);
+}
 
