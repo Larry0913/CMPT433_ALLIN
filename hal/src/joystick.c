@@ -6,10 +6,13 @@
 #include "joystick.h"
 #include "threadController.h"
 #include "utils.h"
+#include "matrix.h"
 
 static pthread_t joystick_id;
+int modeNum = 1000;
 
 static bool isPressed(enum joystick direction);
+static void processMode(int mode);
 
 void joystick_init()
 {
@@ -46,21 +49,19 @@ void *joystickThread(void *args)
     {
         if (isPressed(UP))
         {
-           
-        }
-        else if (isPressed(RIGHT))
-        {
-            
+            modeNum += 1;
+            processMode(modeNum);
+            printf("Joystick UP!\n");
+            sleepForMs(300);
         }
         else if (isPressed(DOWN))
         {
-         
+            modeNum -= 1;
+            processMode(modeNum);
+            sleepForMs(300);
+            printf("Joystick DOWN!\n");
         }
-        else if (isPressed(LEFT))
-        {
-            
-        }
-        else if (isPressed(IN))
+        else if (isPressed(RIGHT))
         {
             
         }
@@ -86,6 +87,18 @@ static bool isPressed(enum joystick direction)
     // close file
     fclose(pFile);
     return !atoi(value);
+}
+
+static void processMode(int mode)
+{
+    if (mode % 2 == 0)
+    {
+        setPeopleMode();
+    }
+    else if (mode % 2 != 0)
+    {
+        setTempMode();
+    }
 }
 
 

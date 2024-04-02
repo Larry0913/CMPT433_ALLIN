@@ -10,6 +10,8 @@
 #include "threadController.h"
 #include "utils.h"
 #include "I2C.h"
+#include "trafficControl.h"
+#include "matrix.h"
 
 static pthread_t I2C_id;
 
@@ -64,6 +66,7 @@ void I2C_cleanup(void)
 void *I2CDisplayThread(void *args)
 {
     (void)args;
+    int showNum = 0;
     int leftDigit;
     int rightDigit;
     int i2cFileDesc = initI2cBus(I2CDRV_LINUX_BUS1, I2C_DEVICE_ADDRESS);
@@ -73,14 +76,23 @@ void *I2CDisplayThread(void *args)
 
     while(running_flag)
     {
-        int num = 13;
-        if(num > 99)
+        ShowMode curMode = getCurrentMode();
+        if(curMode == PEOPLE_MODE)
         {
-            num = 99;
+            showNum = getCurrentPeopleCount();
+        }
+        else if(curMode == TEMP_MODE)
+        {
+            showNum = 0;
         }
 
-        leftDigit = num / 10;
-        rightDigit = num % 10;
+        if(showNum > 99)
+        {
+            showNum = 99;
+        }
+
+        leftDigit = showNum / 10;
+        rightDigit = showNum % 10;
 
         if(leftDigit > 0)
         {

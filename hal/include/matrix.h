@@ -16,6 +16,11 @@
 #define REG_ROW2 0x02
 #define REG_ROW1 0x00
 
+typedef enum {
+    PEOPLE_MODE,
+    TEMP_MODE,
+} ShowMode;
+
 //configure and init
 void matrix_init();
 
@@ -27,5 +32,13 @@ void matrix_cleanup(void);
 
 //thread function
 void *matrixThread(void *args);
+
+ShowMode getCurrentMode();
+
+// set matrix to people count mode
+void setPeopleMode();
+
+// set matrix to temperature mode
+void setTempMode();
 
 #endif
