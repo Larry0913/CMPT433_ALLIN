@@ -38,8 +38,8 @@ void* trafficOutThread(void* _arg){
         if(getLightIntensity() <= 3800){ 
             if (peopleCount > 0){ // prevent getting nagative count
                 peopleCount -= 1;
+                AudioMixer_queueSound(&outWave);
             }
-            AudioMixer_queueSound(&outWave);
             sleepForMs(1000); // prevent repeated count
         }
     }
