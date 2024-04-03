@@ -1,0 +1,157 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+}
+#content{
+    width: 80%;
+    height: 100vh; /* Add this line */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Add this line */
+}
+.box {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+#data-display{
+    width: 80%;
+    height: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+#traffic-light-text {
+    font-size: 20px;
+    color: black;
+    margin-right: 10px;
+}
+
+#traffic-light {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 红绿灯颜色 */
+.red {
+    background-image: url('/image/red.png');
+    background-size: cover;
+}
+
+.yellow {
+    background-image: url('/image/yellow.png');
+    background-size: cover;
+}
+
+.green {
+    background-image: url('/image/green.png');
+    background-size: cover;
+}
+
+nav {
+    width: 200px;
+    height: 100vh;
+    background-color: #f0f0f0;
+    display: flex; /* Add this line */
+    justify-content: center; /* Add this line */
+    align-items: center; /* Add this line */
+    flex-direction: column; /* Add this line */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin-bottom: 10px;
+    text-align: center; /* Add this line */
+
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+}
+nav ul li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    background-color: #ddd;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+#left-box, #right-box {
+    margin: 10px; 
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #0d0d0d;
+    border-radius: 5px;
+}
+
+#left-box {
+    flex: 2; 
+    display: flex;
+    flex-direction: column;
+    height:70%;
+    justify-content: space-around
+}
+
+#right-box {
+    flex: 1;
+    height:fit-content;
+}
+#left-box, #right-box {
+    padding: 20px;
+    border: 1px solid #ddd; /* Add a light gray border */
+    border-radius: 5px; /* Add rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a light shadow */
+    margin-bottom: 20px; /* Add some space at the bottom */
+}
+
+.box {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd; /* Add a bottom border to each box */
+}
+
+#board-status h2 {
+    margin-top: 0; /* Remove the top margin from the h2 element */
+}
+#left-box {
+    width: 300px; /* Increase the width */
+}
+
+.box {
+    display: flex;
+    align-items: center;
+    padding: 20px; /* Increase the padding */
+    margin-bottom: 20px; /* Increase the margin */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.box img {
+    width: 50px; /* Set a fixed width for the images */
+    margin-right: 10px; /* Add some space between the image and the text */
+}
