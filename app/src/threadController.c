@@ -11,30 +11,35 @@
 #include "musicThread.h"
 #include "matrix.h"
 #include "I2C.h"
+#include "tempSensor.h"
 
 int running_flag = 1;
 
 void startProgram()
 {
-    pthread_t trafficInID, trafficOutID, udpThreadID;
+    // pthread_t trafficInID, trafficOutID, udpThreadID;
 
-    pthread_create(&trafficInID, NULL, trafficInThread, NULL);
-    pthread_create(&trafficOutID, NULL, trafficOutThread, NULL);
-    pthread_create(&udpThreadID, NULL, udpThread, NULL);
-    joystick_init();
-    AudioMixer_init();
-    motionSensor_init();
-    I2C_init();
+    // pthread_create(&trafficInID, NULL, trafficInThread, NULL);
+    // pthread_create(&trafficOutID, NULL, trafficOutThread, NULL);
+    // pthread_create(&udpThreadID, NULL, udpThread, NULL);
+    // joystick_init();
+    // AudioMixer_init();
+    // motionSensor_init();
+    // I2C_init();
 
-    matrix_init();
+    // matrix_init();
 
-    pthread_join(trafficInID, NULL);
-    pthread_join(trafficOutID, NULL);
-    pthread_join(udpThreadID, NULL);
-    joystick_wait();
-    matrix_wait();
-    I2C_wait();
-
+    // pthread_join(trafficInID, NULL);
+    // pthread_join(trafficOutID, NULL);
+    // pthread_join(udpThreadID, NULL);
+    // joystick_wait();
+    // matrix_wait();
+    // I2C_wait();
+    while(true)
+    {
+        double temp = TempSensor_returnTemp();
+        printf("temp is %.2f \n", temp);
+    }
 }
 
 void stopProgram()

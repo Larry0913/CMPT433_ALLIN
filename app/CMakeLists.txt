@@ -9,7 +9,7 @@ target_link_libraries(allin LINK_PRIVATE hal)
 target_link_libraries(allin LINK_PRIVATE Threads::Threads)
 
 # ALSA support
-find_package(ALSA REQUIRED)
+#find_package(ALSA REQUIRED)
 target_link_libraries(allin LINK_PRIVATE asound)
 
 # Copy executable to final location (change `hello_world` to project name as needed)
