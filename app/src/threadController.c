@@ -24,7 +24,7 @@ void startProgram()
     // pthread_create(&trafficInID, NULL, trafficInThread, NULL);
     // pthread_create(&trafficOutID, NULL, trafficOutThread, NULL);
     // pthread_create(&udpThreadID, NULL, udpThread, NULL);
-    pthread_create(&tempSensorID, NULL, TempSensor_returnTemp, NULL);
+    pthread_create(&tempSensorID, NULL, TempSensor_thread, NULL);
     // joystick_init();
     // AudioMixer_init();
     // motionSensor_init();

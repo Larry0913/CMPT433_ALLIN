@@ -11,7 +11,7 @@
 #define STATUS_TEMP_DEGREE 25.80
 #define TEMP_PER_VOLTAGE 0.08
 
-void* TempSensor_returnTemp(void *arg)
+void* TempSensor_thread(void *arg)
 {   
     (void) arg;
     // Open file
