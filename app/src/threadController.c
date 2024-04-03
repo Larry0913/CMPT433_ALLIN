@@ -17,11 +17,14 @@ int running_flag = 1;
 
 void startProgram()
 {
-    // pthread_t trafficInID, trafficOutID, udpThreadID;
+    //pthread_t trafficInID, trafficOutID, udpThreadID;
+    pthread_t tempSensorID;
+
 
     // pthread_create(&trafficInID, NULL, trafficInThread, NULL);
     // pthread_create(&trafficOutID, NULL, trafficOutThread, NULL);
     // pthread_create(&udpThreadID, NULL, udpThread, NULL);
+    pthread_create(&tempSensorID, NULL, TempSensor_returnTemp, NULL);
     // joystick_init();
     // AudioMixer_init();
     // motionSensor_init();
@@ -32,14 +35,10 @@ void startProgram()
     // pthread_join(trafficInID, NULL);
     // pthread_join(trafficOutID, NULL);
     // pthread_join(udpThreadID, NULL);
+    pthread_join(tempSensorID, NULL);
     // joystick_wait();
     // matrix_wait();
     // I2C_wait();
-    while(true)
-    {
-        double temp = TempSensor_returnTemp();
-        printf("temp is %.2f \n", temp);
-    }
 }
 
 void stopProgram()
