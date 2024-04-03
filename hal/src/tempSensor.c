@@ -20,8 +20,7 @@ void* TempSensor_thread(void *arg)
         FILE *f = fopen(TEMP_SENSOR_PATH, "r");
         if (!f)
         {
-            printf("ERROR: Unable to open voltage 1 input file. Cape loaded?\n");
-            printf(" Check /boot/uEnv.txt for correct options.\n");
+            printf("ERROR: Unable to open in_voltage1_raw file\n");
             //exit(-1);
             return NULL;
         }
@@ -31,7 +30,7 @@ void* TempSensor_thread(void *arg)
         int itemsRead = fscanf(f, "%le", &temp_voltage_reading);
         if (itemsRead <= 0)
         {
-            printf("ERROR: Unable to read values from voltage 1 input file.\n");
+            printf("ERROR: Unable to read values from in_voltage1_raw file.\n");
             //exit(-1);
             return NULL;
 
