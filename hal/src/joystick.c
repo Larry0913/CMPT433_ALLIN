@@ -7,6 +7,7 @@
 #include "threadController.h"
 #include "utils.h"
 #include "matrix.h"
+#include "udp.h"
 
 static pthread_t joystick_id;
 int modeNum = 999;
@@ -64,7 +65,8 @@ void *joystickThread(void *args)
         }
         else if (isPressed(RIGHT))
         {
-            
+            stopProgram();
+            exit(1);
         }
     }
     

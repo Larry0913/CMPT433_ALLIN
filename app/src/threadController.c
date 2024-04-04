@@ -16,11 +16,11 @@ int running_flag = 1;
 
 void startProgram()
 {
-    pthread_t trafficInID, trafficOutID, udpThreadID;
+    pthread_t trafficInID, trafficOutID;
 
     pthread_create(&trafficInID, NULL, trafficInThread, NULL);
     pthread_create(&trafficOutID, NULL, trafficOutThread, NULL);
-    pthread_create(&udpThreadID, NULL, udpThread, NULL);
+    UDP_init();
     joystick_init();
     AudioMixer_init();
     motionSensor_init();
@@ -28,9 +28,9 @@ void startProgram()
 
     matrix_init();
 
+    UDP_wait();
     pthread_join(trafficInID, NULL);
     pthread_join(trafficOutID, NULL);
-    pthread_join(udpThreadID, NULL);
     joystick_wait();
     matrix_wait();
     I2C_wait();
@@ -40,7 +40,12 @@ void startProgram()
 void stopProgram()
 {
     running_flag = 0;
+    printf("Cleaning up...54321\nDone!\n");
+    printf("Thank you!\nBy: CMPT433_ALLIN!\n");
+    
+    UDP_cleanup();
     matrix_cleanup();
     AudioMixer_cleanup();
+    I2C_cleanup();
 
 }

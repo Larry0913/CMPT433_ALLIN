@@ -199,7 +199,7 @@ void AudioMixer_cleanup(void)
 	AudioMixer_freeWaveFileData(&enterWave);
 	AudioMixer_freeWaveFileData(&outWave);
 
-	printf("Done stopping audio...\n");
+	//printf("Done stopping audio...\n");
 	fflush(stdout);
 }
 
