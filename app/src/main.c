@@ -5,7 +5,7 @@
 
 int main ()
 {
-    printf("hello CMPT433_ALLIN Project!\n");
+    printf("Hello CMPT433_ALLIN Project!\n");
     startProgram();
     return 0;
 }
