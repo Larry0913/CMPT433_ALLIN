@@ -16,6 +16,8 @@
 #define PRU1_MEM_FROM_BASE(base) ( (base) + PRU1_DRAM + PRU_MEM_RESERVED)
 #define PRUSHARED_MEM_FROM_BASE(base) ( (base) + PRU_SHAREDMEM)
 
+#include "sharedDataStruct.h"
+
 //init pixel configure
 void neoPixel_init(volatile sharedMemStruct_t* pSharedPru0_temp);
 

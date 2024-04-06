@@ -128,7 +128,7 @@ void setPeopleMode() {
 }
 
 void setTempMode() {
-    int temp = 36;
+    int temp = 25;
     printf("Current mode is Temperature and it's %d degrees!\n", temp);
     currentMode = TEMP_MODE;
     setModeNum();
