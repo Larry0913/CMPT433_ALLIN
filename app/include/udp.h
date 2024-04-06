@@ -15,8 +15,10 @@ int receivePacket(char *packet);
 int sendPacket(char *packet);
 
 void runUDPCommand(char *command);
+
 void printHelp(void);
 void printPeopleCount(void);
+void printTemp(void);
 void stop(void);
 
 

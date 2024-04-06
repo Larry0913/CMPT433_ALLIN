@@ -112,14 +112,10 @@ static void showSmileMode()
 {
     writeI2cReg(i2cFileDesc, REG_ROW8, 0x1e);
     writeI2cReg(i2cFileDesc, REG_ROW7, 0x21);
-
     writeI2cReg(i2cFileDesc, REG_ROW6, 0xd2);
-
     writeI2cReg(i2cFileDesc, REG_ROW5, 0xc0);
-
     writeI2cReg(i2cFileDesc, REG_ROW4, 0xd2);
     writeI2cReg(i2cFileDesc, REG_ROW3, 0xcc);
-
     writeI2cReg(i2cFileDesc, REG_ROW2, 0x21);
     writeI2cReg(i2cFileDesc, REG_ROW1, 0x1e);
 } 

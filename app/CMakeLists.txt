@@ -12,6 +12,8 @@ target_link_libraries(allin LINK_PRIVATE Threads::Threads)
 find_package(ALSA REQUIRED)
 target_link_libraries(allin LINK_PRIVATE asound)
 
+include_directories(../pru-allin/)
+
 # Copy executable to final location (change `hello_world` to project name as needed)
 add_custom_command(TARGET allin POST_BUILD 
   COMMAND "${CMAKE_COMMAND}" -E copy 
