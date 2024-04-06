@@ -83,7 +83,7 @@ void *I2CDisplayThread(void *args)
         }
         else if(curMode == TEMP_MODE)
         {
-            showNum = 36;
+            showNum = 25;
         }
         else if(curMode == SMILE_MODE)
         {

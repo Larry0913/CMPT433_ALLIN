@@ -131,6 +131,10 @@ void runUDPCommand(char *command)
     {
         printPeopleCount();
     }
+    else if (strcmp(command, "temperature\n") == 0)
+    {
+        printTemp();
+    }
     else if (strcmp(command, "shutdown\n") == 0)
     {
         stop();
@@ -158,6 +162,14 @@ void printPeopleCount(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
     sprintf(buffer, "BBG_ALLIN count: %d\n", getCurrentPeopleCount());
+    sendPacket(buffer);
+}
+
+void printTemp(void)
+{
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    //sprintf(buffer, "BBG_ALLIN temperature: %d\n", get());
+    sprintf(buffer, "BBG_ALLIN temperature: 25\n");
     sendPacket(buffer);
 }
 
