@@ -11,6 +11,7 @@
 #include "musicThread.h"
 #include "matrix.h"
 #include "I2C.h"
+#include "neoPixel.h"
 
 int running_flag = 1;
 
@@ -25,7 +26,6 @@ void startProgram()
     AudioMixer_init();
     motionSensor_init();
     I2C_init();
-
     matrix_init();
 
     UDP_wait();
