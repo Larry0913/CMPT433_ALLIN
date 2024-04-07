@@ -12,6 +12,7 @@
 #include "matrix.h"
 #include "I2C.h"
 #include "neoPixel.h"
+#include "digitDisplay.h"
 
 int running_flag = 1;
 
@@ -27,6 +28,7 @@ void startProgram()
     motionSensor_init();
     I2C_init();
     matrix_init();
+    timeDisplay_init();
 
     UDP_wait();
     pthread_join(trafficInID, NULL);
@@ -34,6 +36,7 @@ void startProgram()
     joystick_wait();
     matrix_wait();
     I2C_wait();
+    timeDisplay_wait();
 
 }
 
@@ -47,5 +50,6 @@ void stopProgram()
     matrix_cleanup();
     AudioMixer_cleanup();
     I2C_cleanup();
+    timeDisplay_cleanup();
 
 }
