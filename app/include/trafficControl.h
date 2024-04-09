@@ -3,6 +3,14 @@
 
 #include <stdbool.h>
 
+void trafficIn_init();
+void trafficIn_wait();
+void trafficIn_cleanup(void);
+
+void trafficOut_init();
+void trafficOut_wait();
+void trafficOut_cleanup(void);
+
 // record people walk in or walk out
 void* trafficInThread(void*);
 
