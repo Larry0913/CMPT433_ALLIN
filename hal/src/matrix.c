@@ -29,7 +29,7 @@ void matrix_init()
     writeI2cReg(i2cFileDesc, REG_STARTUP, 0x00);
     writeI2cReg(i2cFileDesc, REG_NOFLASH, 0x00);
 
-    printf("Default mode is People count!\n");
+    printf("Default mode is People count and %d people in the room now!\n", getCurrentPeopleCount());
 
     pthread_create(&matrix_id, NULL, matrixThread, NULL);
 }
