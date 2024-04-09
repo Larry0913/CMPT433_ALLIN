@@ -25,9 +25,9 @@ void startProgram()
     pPruBase = getPruMmapAddr();
     pSharedPru0 = PRU0_MEM_FROM_BASE(pPruBase);
 
+    UDP_init();
     trafficIn_init();
     trafficOut_init();
-    UDP_init();
     joystick_init();
     AudioMixer_init();
     motionSensor_init();
@@ -66,5 +66,6 @@ void stopProgram()
     AudioMixer_cleanup();
     I2C_cleanup();
     timeDisplay_cleanup();
+    clearStrip();
 
 }

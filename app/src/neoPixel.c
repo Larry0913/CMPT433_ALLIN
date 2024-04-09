@@ -90,10 +90,41 @@ void setPixelColor(int color)
 {
     if (color == 0)
     {
-        for(int i = 0; i < STR_LEN; i++)
+    // Forward direction
+        for(int i = 0; i < STR_LEN - 1; i++) // Stop one before the last to light up two pixels
         {
-            pSharedPru0->neoPixels[i] = Blue;
+            pSharedPru0->neoPixels[i] = Blue; // Set current pixel to blue
+            if(i + 1 < STR_LEN)
+            {
+                pSharedPru0->neoPixels[i + 1] = Blue; // Also set the next pixel to blue
+            }
+            if(i > 0)
+            {
+                pSharedPru0->neoPixels[i - 1] = 0; // Turn off the pixel two behind
+            }
+            sleepForMs(DELAY_MS);
         }
+
+        // Backward direction
+        for(int i = STR_LEN - 2; i >= 0; i--) // Start from second-to-last pixel
+        {
+            pSharedPru0->neoPixels[i] = Blue; // Set current pixel to blue
+            if(i + 1 < STR_LEN)
+            {
+                pSharedPru0->neoPixels[i + 1] = Blue; // Also set the next pixel to blue
+            }
+            
+            if(i + 2 < STR_LEN)
+                pSharedPru0->neoPixels[i + 2] = 0; // Turn off the pixel just after the pair
+            
+            // Edge case for when i is 0 to turn off the LED at position 1
+            if(i == 0)
+            {
+                pSharedPru0->neoPixels[1] = 0;
+            }
+            sleepForMs(DELAY_MS);
+        }
+
     }
     else if(color == 1)
     {

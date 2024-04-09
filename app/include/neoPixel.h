@@ -16,6 +16,8 @@
 #define PRU1_MEM_FROM_BASE(base) ( (base) + PRU1_DRAM + PRU_MEM_RESERVED)
 #define PRUSHARED_MEM_FROM_BASE(base) ( (base) + PRU_SHAREDMEM)
 
+#define DELAY_MS 50
+
 #include "sharedDataStruct.h"
 
 //init pixel configure
