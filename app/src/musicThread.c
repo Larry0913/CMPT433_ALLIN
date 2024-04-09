@@ -7,6 +7,7 @@
 #include "musicThread.h"
 #include "threadController.h"
 #include "trafficControl.h"
+#include "utils.h"
 
 
 static snd_pcm_t *handle;
@@ -155,11 +156,13 @@ void AudioMixer_freeWaveFileData(wavedata_t *pSound)
 
 void AudioMixer_queueSound(wavedata_t *pSound)
 {
+	
 	// Ensure we are only being asked to play "good" sounds:
 	if (running_flag)
 	{
-		//assert(pSound->numSamples > 0);
-		//assert(pSound->pData);
+		sleepForMs(200);
+		assert(pSound->numSamples > 0);
+		assert(pSound->pData);
 	}
 
 	pthread_mutex_lock(&audioMutex); // Lock for thread safety

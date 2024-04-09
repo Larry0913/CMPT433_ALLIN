@@ -140,7 +140,8 @@ static void* groveDisplayThread(void* args)
         
         timeDisplay_write(DISPLAY_ON | 0x07);
         timeDisplay_stop();
-        sleepForMs(3000);
+        sleepForMs(60000);
+        
     }
 
     pthread_exit(NULL);
@@ -336,14 +337,18 @@ static void getCurrentTime(char* result) {
 	if (hour < 10) {
 		if (minute < 10) {
 			sprintf(result, "0%d0%d", hour, minute);
+            printf("Current time is 0%d : 0%d\n", hour, minute);
 		} else {
 			sprintf(result, "0%d%d", hour, minute);
+            printf("Current time is 0%d : %d\n", hour, minute);
 		}
 	} else {
 		if (minute < 10) {
 			sprintf(result, "%d0%d", hour, minute);
+            printf("Current time is %d : 0%d\n", hour, minute);
 		} else {
 			sprintf(result, "%d%d", hour, minute);
+            printf("Current time is %d : %d\n", hour, minute);
 		}
 	}
 
