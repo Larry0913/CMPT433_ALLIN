@@ -15,6 +15,23 @@ int peopleCount = 0;
 bool in_flag = false;
 bool out_flag = true;
 
+static pthread_t trafficIn_id, trafficOut_id;
+
+void trafficIn_init()
+{
+    pthread_create(&trafficIn_id, NULL, trafficInThread, NULL);
+}
+    
+void trafficIn_wait()
+{
+    pthread_join(trafficIn_id, NULL);
+}
+    
+void trafficIn_cleanup(void)
+{
+
+}
+
 void* trafficInThread(void* _arg){
     (void)_arg;
 
@@ -28,6 +45,19 @@ void* trafficInThread(void* _arg){
     return NULL;
 }
 
+void trafficOut_init()
+{
+    pthread_create(&trafficOut_id, NULL, trafficOutThread, NULL);
+}
+
+void trafficOut_wait()
+{
+    pthread_join(trafficOut_id, NULL);
+}
+void trafficOut_cleanup(void)
+{
+
+}
 
 void* trafficOutThread(void* _arg){
     (void)_arg;

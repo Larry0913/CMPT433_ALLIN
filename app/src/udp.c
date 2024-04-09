@@ -18,6 +18,17 @@ int sockfd;
 struct sockaddr_in servaddr, cliaddr;
 static pthread_t UDP_id;
 
+static void setupUDPSocket(void);
+
+static int receivePacket(char *packet);
+static int sendPacket(char *packet);
+
+static void runUDPCommand(char *command);
+
+static void printHelp(void);
+static void printPeopleCount(void);
+static void printTemp(void);
+
 void UDP_init()
 {
     setupUDPSocket();
@@ -73,7 +84,7 @@ void *UDPServerThread(void *args)
     
 }
 
-void setupUDPSocket(void)
+static void setupUDPSocket(void)
 {
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -95,7 +106,7 @@ void setupUDPSocket(void)
     }
 }
 
-int receivePacket(char *packet)
+static int receivePacket(char *packet)
 {
     unsigned int sin_len = sizeof(cliaddr);
     int bytesRx = recvfrom(sockfd, packet, BUFFER_MAX_SIZE - 1, 0, (struct sockaddr *) &cliaddr, &sin_len);
@@ -108,7 +119,7 @@ int receivePacket(char *packet)
     return bytesRx;
 }
 
-int sendPacket(char *packet)
+static int sendPacket(char *packet)
 {
     unsigned int sin_len = sizeof(cliaddr);
     int byteTx = sendto(sockfd, (const char *)packet, BUFFER_MAX_SIZE - 1, 0, (const struct sockaddr *) &cliaddr, sin_len); 
@@ -121,7 +132,7 @@ int sendPacket(char *packet)
     return byteTx;
 }
 
-void runUDPCommand(char *command)
+static void runUDPCommand(char *command)
 {
     if (strcmp(command, "help\n") == 0 ||strcmp(command, "?\n") == 0)
     {
@@ -148,7 +159,7 @@ void runUDPCommand(char *command)
     }
 }
 
-void printHelp(void)
+static void printHelp(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
     strcat(buffer, "BBG_ALLIN Accepted command examples:\n");
@@ -158,14 +169,14 @@ void printHelp(void)
     sendPacket(buffer);
 }
 
-void printPeopleCount(void)
+static void printPeopleCount(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
     sprintf(buffer, "BBG_ALLIN count: %d\n", getCurrentPeopleCount());
     sendPacket(buffer);
 }
 
-void printTemp(void)
+static void printTemp(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
     //sprintf(buffer, "BBG_ALLIN temperature: %d\n", get());

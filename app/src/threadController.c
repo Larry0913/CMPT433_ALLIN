@@ -15,13 +15,18 @@
 #include "digitDisplay.h"
 
 int running_flag = 1;
+volatile void *pPruBase;
+volatile sharedMemStruct_t *pSharedPru0;
 
 void startProgram()
 {
-    pthread_t trafficInID, trafficOutID;
 
-    pthread_create(&trafficInID, NULL, trafficInThread, NULL);
-    pthread_create(&trafficOutID, NULL, trafficOutThread, NULL);
+    // Get access to shared memory for my uses
+    pPruBase = getPruMmapAddr();
+    pSharedPru0 = PRU0_MEM_FROM_BASE(pPruBase);
+
+    trafficIn_init();
+    trafficOut_init();
     UDP_init();
     joystick_init();
     AudioMixer_init();
@@ -29,14 +34,17 @@ void startProgram()
     I2C_init();
     matrix_init();
     timeDisplay_init();
+    neoPixel_init(pSharedPru0);
+
 
     UDP_wait();
-    pthread_join(trafficInID, NULL);
-    pthread_join(trafficOutID, NULL);
+    trafficIn_wait();
+    trafficOut_wait();
     joystick_wait();
     matrix_wait();
     I2C_wait();
     timeDisplay_wait();
+    freePruMmapAddr(pPruBase);
 
 }
 
