@@ -21,7 +21,7 @@ int sockfd;
 struct sockaddr_in servaddr, cliaddr;
 static pthread_t UDP_id;
 
-static int getTime();
+static float get_uptime();
 static int getTime();
 
 static void setupUDPSocket(void);
