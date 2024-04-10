@@ -219,7 +219,7 @@ void AudioMixer_setVolume(int newVolume)
 {
 	// Ensure volume is reasonable; If so, cache it for later getVolume() calls.
 	if (newVolume < 0 || newVolume > AUDIOMIXER_MAX_VOLUME) {
-		printf("ERROR: Volume must be between 0 and 100.\n");
+		printf("ERROR: Volume must be between 0 and 150.\n");
 		return;
 	}
 	volume = newVolume;

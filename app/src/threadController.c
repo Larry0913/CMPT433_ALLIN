@@ -51,8 +51,17 @@ void startProgram()
 void stopProgram()
 {
     running_flag = 0;
+
     printf("Cleaning up...54321\nDone!\n");
     printf("Thank you!\nBy: CMPT433_ALLIN!\n");
+
+    UDP_cleanup();
+    matrix_cleanup();
+    AudioMixer_cleanup();
+    I2C_cleanup();
+    timeDisplay_cleanup();
+    clearStrip();
+
     printf("   ________  _______  ________ __ __________      ___    __    __    _____   __\n");     
     printf("  / ____/  |/  / __ \\/_  __/ // /|__  /__  /     /   |  / /   / /   /  _/ | / /\n");       
     printf(" / /   / /|_/ / /_/ / / / / // /_ /_ < /_ <     / /| | / /   / /    / //  |/ / \n"); 
@@ -60,12 +69,5 @@ void stopProgram()
     printf("\\____/_/  /_/_/     /_/    /_/ /____/____/____/_/  |_/_____/_____/___/_/ |_/   \n"); 
     printf("                                        /_____/                                \n"); 
 
-    
-    UDP_cleanup();
-    matrix_cleanup();
-    AudioMixer_cleanup();
-    I2C_cleanup();
-    timeDisplay_cleanup();
-    clearStrip();
 
 }
