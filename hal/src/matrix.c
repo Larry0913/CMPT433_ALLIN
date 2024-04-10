@@ -84,6 +84,16 @@ ShowMode getCurrentMode()
     return currentMode;
 }
 
+int getModebyEnum(ShowMode mode) 
+{
+   switch (mode) 
+   {
+      case PEOPLE_MODE: return 0;
+      case TEMP_MODE: return 1;
+      case SMILE_MODE: return 2;
+   }
+}
+
 static void showPeopleMode()
 {
     writeI2cReg(i2cFileDesc, REG_ROW8, OFF_I2C);

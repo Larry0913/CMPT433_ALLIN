@@ -36,6 +36,8 @@ void *matrixThread(void *args);
 
 ShowMode getCurrentMode();
 
+int getModebyEnum(ShowMode mode);
+
 // set matrix to people count mode
 void setPeopleMode();
 

@@ -98,7 +98,7 @@ static void processMode(int mode)
     {
         setPeopleMode();
     }
-    else if (mode % 3 == 2)
+    else if (mode % 3 == 1)
     {
         setTempMode();
     }
@@ -122,13 +122,13 @@ void setModeNum()
         if (modeNum %3 != 0)
             modeNum += 1;
     }
-    else if (curMode == TEMP_MODE && modeNum %3 != 2)
+    else if (curMode == TEMP_MODE && modeNum %3 != 1)
     {
         modeNum += 1;
         if (modeNum %3 != 1)
             modeNum += 1;
     } 
-    else if (curMode == SMILE_MODE && modeNum %3 != 1)
+    else if (curMode == SMILE_MODE && modeNum %3 != 2)
     {
         modeNum += 1;
         if (modeNum %3 != 2)

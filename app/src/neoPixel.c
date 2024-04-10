@@ -11,6 +11,7 @@
 #include "neoPixel.h"
 #include "utils.h"
 #include "trafficControl.h"
+#include "pot.h"
 
 static volatile sharedMemStruct_t* pSharedPru0 = NULL;
 static pthread_t neoPixel_id;
@@ -96,6 +97,8 @@ void setPixelColor(int color)
         int peopleCount = getCurrentPeopleCount();
         uint32_t showColor;
         uint32_t showColor_temp;
+        int delayTime = getDelayTimeForNeoPixel();
+
         if(peopleCount < 4)
         {
             showColor = Green;
@@ -111,6 +114,7 @@ void setPixelColor(int color)
             showColor = Red;
             showColor_temp = RedBright;
         }
+
         for(int i = 0; i < STR_LEN - 1; i++) // Stop one before the last to light up two pixels
         {
             pSharedPru0->neoPixels[i] = showColor; // Set current pixel to blue
@@ -122,7 +126,7 @@ void setPixelColor(int color)
             {
                 pSharedPru0->neoPixels[i - 1] = 0; // Turn off the pixel two behind
             }
-            sleepForMs(DELAY_MS);
+            sleepForMs(delayTime);
         }
 
         // Backward direction
@@ -142,7 +146,7 @@ void setPixelColor(int color)
             {
                 pSharedPru0->neoPixels[1] = 0;
             }
-            sleepForMs(DELAY_MS);
+            sleepForMs(delayTime);
         }
 
     }

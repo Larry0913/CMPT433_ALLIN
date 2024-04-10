@@ -10,13 +10,19 @@
 
 #include "threadController.h"
 #include "trafficControl.h"
+#include "musicThread.h"
 #include "utils.h"
 #include "udp.h"
+#include "matrix.h"
+#include "digitDisplay.h"
 
 
 int sockfd;
 struct sockaddr_in servaddr, cliaddr;
 static pthread_t UDP_id;
+
+static int getTime();
+static int getTime();
 
 static void setupUDPSocket(void);
 
@@ -26,8 +32,15 @@ static int sendPacket(char *packet);
 static void runUDPCommand(char *command);
 
 static void printHelp(void);
+static void printStatus(void);
+static void printCurrentTime();
 static void printPeopleCount(void);
 static void printTemp(void);
+static void ppl(void);
+static void temp(void);
+static void smile(void);
+static void volumeIncrease(void);
+static void volumeDecrease(void);
 
 void UDP_init()
 {
@@ -84,6 +97,32 @@ void *UDPServerThread(void *args)
     
 }
 
+static float get_uptime()
+{
+	float upTime;
+	FILE *upTimeFile = fopen("/proc/uptime", "r");
+	fscanf(upTimeFile, "%f", &upTime);
+	fclose(upTimeFile);
+	return upTime;
+}
+
+static int getTime()
+{
+    time_t rawtime = time(NULL);
+	struct tm * timeinfo;
+	int hour = 0;
+	int minute = 0;
+
+    time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	hour = (*timeinfo).tm_hour;
+	minute = (*timeinfo).tm_min;
+
+    int ret = hour * 100 + minute;
+    return ret;
+}
+
 static void setupUDPSocket(void)
 {
     servaddr.sin_family = AF_INET;
@@ -138,6 +177,14 @@ static void runUDPCommand(char *command)
     {
         printHelp();
     }
+    else if (strcmp(command, "status\n") == 0)
+    {
+        printStatus();
+    }
+    else if (strcmp(command, "time\n") == 0)
+    {
+        printCurrentTime();
+    }
     else if (strcmp(command, "peoplecount\n") == 0)
     {
         printPeopleCount();
@@ -145,6 +192,26 @@ static void runUDPCommand(char *command)
     else if (strcmp(command, "temperature\n") == 0)
     {
         printTemp();
+    }
+    else if (strcmp(command, "ppl\n") == 0)
+    {
+        ppl();
+    }
+    else if (strcmp(command, "temp\n") == 0)
+    {
+        temp();
+    }
+    else if (strcmp(command, "smile\n") == 0)
+    {
+        smile();
+    }
+    else if (strcmp(command, "volume increase\n") == 0)
+    {
+        volumeIncrease();
+    }
+    else if (strcmp(command, "volume decrease\n") == 0)
+    {
+        volumeDecrease();
     }
     else if (strcmp(command, "shutdown\n") == 0)
     {
@@ -163,16 +230,54 @@ static void printHelp(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
     strcat(buffer, "BBG_ALLIN Accepted command examples:\n");
-    strcat(buffer, "peoplecount     -- get the number of people in the room.\n");
-    strcat(buffer, "stop            -- cause the server program to end.\n");
+    strcat(buffer, "status          -- Get current status.\n");
+    strcat(buffer, "time            -- Get current time.\n");
+    strcat(buffer, "peoplecount     -- Get the number of people in the room.\n");
+    strcat(buffer, "temperature     -- Get the temperature of the room.\n");
+    strcat(buffer, "ppl             -- Go to peoplecount mode.\n");
+    strcat(buffer, "temp            -- Go to temperature mode.\n");
+    strcat(buffer, "smile           -- Go to smile mode.\n");
+    strcat(buffer, "volume increase -- Increase the volume by 5.\n");
+    strcat(buffer, "volume decrease -- Decrease the volume by 5.\n");
+    strcat(buffer, "shutdown        -- Cause the server program to end.\n");
     strcat(buffer, "<enter>         -- repeat last command.\n\n");
+    sendPacket(buffer);
+}
+
+static void printStatus(void)
+{
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    //sprintf(buffer, "BBG_ALLIN status uptime=%f, time=%d, mode=%d, ppl=%d, volume=%d, temp=%d\n", get_uptime(), getTime(), getModebyEnum(getCurrentMode()), getCurrentPeopleCount(), AudioMixer_getVolume(), getTemp());
+    sprintf(buffer, "BBG_ALLIN status uptime=%f, time=%d, mode=%d, ppl=%d, volume=%d\n", get_uptime(), getTime(), getModebyEnum(getCurrentMode()), getCurrentPeopleCount(), AudioMixer_getVolume());
+    sendPacket(buffer);
+}
+
+static void printCurrentTime()
+{
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    int time = getTime();
+    int hour = time / 100;
+    int minute = time % 100;
+    if (hour < 10) {
+		if (minute < 10) {
+			sprintf(buffer, "BBG_ALLIN current time: 0%d : 0%d\n", hour, minute);
+		} else {
+			sprintf(buffer, "BBG_ALLIN current time: 0%d : %d\n", hour, minute);
+		}
+	} else {
+		if (minute < 10) {
+			sprintf(buffer, "BBG_ALLIN current time: %d0 : %d\n", hour, minute);
+		} else {
+			sprintf(buffer, "BBG_ALLIN current time: %d : %d\n", hour, minute);
+		}
+	}
     sendPacket(buffer);
 }
 
 static void printPeopleCount(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
-    sprintf(buffer, "BBG_ALLIN count: %d\n", getCurrentPeopleCount());
+    sprintf(buffer, "BBG_ALLIN people count: %d\n", getCurrentPeopleCount());
     sendPacket(buffer);
 }
 
@@ -184,10 +289,53 @@ static void printTemp(void)
     sendPacket(buffer);
 }
 
+static void ppl(void)
+{
+    setPeopleMode();
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    sprintf(buffer, "BBG_ALLIN Mode: People count mode\n");
+    sendPacket(buffer);
+}
+
+static void temp(void)
+{
+    setTempMode();
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    sprintf(buffer, "BBG_ALLIN Mode: Temperature mode\n");
+    sendPacket(buffer);
+}
+
+static void smile()
+{
+    setSmileMode();
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    sprintf(buffer, "BBG_ALLIN Mode: Smile mode\n");
+    sendPacket(buffer);
+}
+
+static void volumeIncrease(void)
+{
+    AudioMixer_setVolume(AudioMixer_getVolume() + 5);
+    printf("Current volume is %d\n", AudioMixer_getVolume());
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    sprintf(buffer, "BBG_ALLIN: volume increases by 5, now is %d\n", AudioMixer_getVolume());
+    sendPacket(buffer);
+}
+
+static void volumeDecrease(void)
+{
+    AudioMixer_setVolume(AudioMixer_getVolume() - 5);
+    printf("Current volume is %d\n", AudioMixer_getVolume());
+    char buffer[BUFFER_MAX_SIZE] = {0};
+    sprintf(buffer, "BBG_ALLIN: volume decreases by 5, now is%d\n", AudioMixer_getVolume());
+    sendPacket(buffer);
+}
+
 void stop(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
     sprintf(buffer, "BBG_ALLIN Program terminating.\n");
     sendPacket(buffer);
     stopProgram();
+    exit(1);
 }
