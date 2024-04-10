@@ -1,6 +1,7 @@
 #ifndef _TEMP_SENSOR_H_
 #define _TEMP_SENSOR_H_
 
-void* TempSensor_thread(void* arg);
+//void* TempSensor_thread(void* arg);
+double TempSenor_returnTemp();
 
 #endif
