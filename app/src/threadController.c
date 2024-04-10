@@ -13,6 +13,7 @@
 #include "I2C.h"
 #include "neoPixel.h"
 #include "digitDisplay.h"
+#include "Leds.h"
 
 int running_flag = 1;
 volatile void *pPruBase;
@@ -35,6 +36,7 @@ void startProgram()
     matrix_init();
     timeDisplay_init();
     neoPixel_init(pSharedPru0);
+    leds_init();
 
 
     UDP_wait();
@@ -61,6 +63,7 @@ void stopProgram()
     I2C_cleanup();
     timeDisplay_cleanup();
     clearStrip();
+    leds_cleanup();
 
     printf("   ________  _______  ________ __ __________      ___    __    __    _____   __\n");     
     printf("  / ____/  |/  / __ \\/_  __/ // /|__  /__  /     /   |  / /   / /   /  _/ | / /\n");       

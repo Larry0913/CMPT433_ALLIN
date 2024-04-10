@@ -8,6 +8,7 @@
 #include "utils.h"
 #include "matrix.h"
 #include "udp.h"
+#include "Leds.h"
 
 static pthread_t joystick_id;
 int modeNum = 999;
@@ -53,6 +54,7 @@ void *joystickThread(void *args)
             printf("Joystick UP!\n");
             modeNum += 1;
             processMode(modeNum);
+            ledBlinkBase(); //blink bbg leds
             sleepForMs(300);
         }
         else if (isPressed(DOWN))
@@ -60,6 +62,7 @@ void *joystickThread(void *args)
             printf("Joystick DOWN!\n");
             modeNum -= 1;
             processMode(modeNum);
+            ledBlinkBase(); //blink bbg leds
             sleepForMs(300);
             
         }
