@@ -40,7 +40,7 @@ void* trafficInThread(void* _arg){
         if(getMotionSensorStatus() == 1){ // motion sensor for IN
             peopleCount += 1;
             AudioMixer_queueSound(&enterWave);
-            flashRed(); // neopixel turns red for 500ms when detect people in
+            flashTeal(); // neopixel turns Teal for 500ms when detect people in
             while(getMotionSensorStatus() == 1){ sleepForMs(50); } // busy wait until motion sensor back to 0
         }
     }
@@ -72,7 +72,7 @@ void* trafficOutThread(void* _arg){
             if (peopleCount > 0){ // prevent getting nagative count
                 peopleCount -= 1;
                 AudioMixer_queueSound(&outWave);
-                flashGreen(); //neopixel turns green for 500ms when detect people out
+                flashBlue(); //neopixel turns blue for 500ms when detect people out
             }
             sleepForMs(1000); // prevent repeated count
         }

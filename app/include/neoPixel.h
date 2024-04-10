@@ -34,8 +34,8 @@ void setPixelColor(int color);
 //turn off all pixels
 void clearStrip();
 
-void flashRed();
-void flashGreen();
+void flashTeal();
+void flashBlue();
 
 
 
