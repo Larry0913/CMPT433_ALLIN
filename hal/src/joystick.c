@@ -52,17 +52,17 @@ void *joystickThread(void *args)
         if (isPressed(UP))
         {
             printf("Joystick UP!\n");
-            ledBlinkBase();
             modeNum += 1;
             processMode(modeNum);
+            ledBlinkBase(); //blink bbg leds
             sleepForMs(300);
         }
         else if (isPressed(DOWN))
         {
             printf("Joystick DOWN!\n");
-            ledBlinkBase();
             modeNum -= 1;
             processMode(modeNum);
+            ledBlinkBase(); //blink bbg leds
             sleepForMs(300);
             
         }
