@@ -106,10 +106,7 @@ double TempSenor_returnTemp()
 		if (tempRaw > 4095)
 			tempRaw -= 8192;
 	    temperature = tempRaw * 0.0625;
-
-		printf("Current Temperature is: %.2f °C\n", temperature);
-		sleepForMs(1000);
 	}
-    
+    sleepForMs(1000);
     return temperature;
 }
