@@ -8,10 +8,10 @@
 #include "tempSensor.h"
 #include "utils.h"
 
-#define TEMP_SENSOR_PATH "/sys/bus/iio/devices/iio:device0/in_voltage1_raw"
-#define STATUS_TEMP_VOLTAGE 2028.00 // 25.8 ℃
-#define STATUS_TEMP_DEGREE 25.80
-#define TEMP_PER_VOLTAGE 0.08
+// #define TEMP_SENSOR_PATH "/sys/bus/iio/devices/iio:device0/in_voltage1_raw"
+// #define STATUS_TEMP_VOLTAGE 2028.00 // 25.8 ℃
+// #define STATUS_TEMP_DEGREE 25.80
+// #define TEMP_PER_VOLTAGE 0.08
 
 // void* TempSensor_thread(void *arg)
 // {
