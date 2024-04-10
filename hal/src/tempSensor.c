@@ -85,7 +85,7 @@ double TempSenor_returnTemp()
     char resolutionConfig[2] = {0x08, 0x03}; 
     write(i2cFileDescriptor, resolutionConfig, 2);
        
-    sleep(1); 
+    sleepForMs(100);
 
     // temp register address
     char tempRegAddr = 0x05; 
