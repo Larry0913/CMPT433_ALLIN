@@ -10,10 +10,11 @@
 #include "threadController.h"
 #include "neoPixel.h"
 #include "utils.h"
+#include "trafficControl.h"
 
 static volatile sharedMemStruct_t* pSharedPru0 = NULL;
 static pthread_t neoPixel_id;
-int color_flag = 0; //0: blue, 1: red, 2:green
+int color_flag = 0; //0: green/yellow/red, 1: Teal, 2: blue
 
 void neoPixel_init(volatile sharedMemStruct_t* pSharedPru0_temp)
 {
@@ -62,17 +63,17 @@ void *neoPixelThread(void *args)
     {
         if(color_flag == 0)
         {
-            setPixelColor(color_flag); //blue
+            setPixelColor(color_flag); //green/yellow/red
         }
         else if(color_flag == 1)
         {
-            setPixelColor(color_flag); //red
+            setPixelColor(color_flag); //Teal
             sleepForMs(500);
             color_flag = 0;
         }
         else if(color_flag == 2)
         {
-            setPixelColor(color_flag); //green
+            setPixelColor(color_flag); //blue
             sleepForMs(500);
             color_flag = 0;
         }
@@ -90,13 +91,32 @@ void setPixelColor(int color)
 {
     if (color == 0)
     {
-    // Forward direction
+        // Forward direction
+        //int peopleCount = 0;
+        int peopleCount = getCurrentPeopleCount();
+        uint32_t showColor;
+        uint32_t showColor_temp;
+        if(peopleCount < 4)
+        {
+            showColor = Green;
+            showColor_temp = GreenBright;
+        }
+        else if (peopleCount >=4 && peopleCount < 8)
+        {
+            showColor = Yellow;
+            showColor_temp = Yellow;
+        }
+        else 
+        {
+            showColor = Red;
+            showColor_temp = RedBright;
+        }
         for(int i = 0; i < STR_LEN - 1; i++) // Stop one before the last to light up two pixels
         {
-            pSharedPru0->neoPixels[i] = Blue; // Set current pixel to blue
+            pSharedPru0->neoPixels[i] = showColor; // Set current pixel to blue
             if(i + 1 < STR_LEN)
             {
-                pSharedPru0->neoPixels[i + 1] = Blue; // Also set the next pixel to blue
+                pSharedPru0->neoPixels[i + 1] = showColor_temp; // Also set the next pixel to blue
             }
             if(i > 0)
             {
@@ -108,10 +128,10 @@ void setPixelColor(int color)
         // Backward direction
         for(int i = STR_LEN - 2; i >= 0; i--) // Start from second-to-last pixel
         {
-            pSharedPru0->neoPixels[i] = Blue; // Set current pixel to blue
+            pSharedPru0->neoPixels[i] = showColor; // Set current pixel to blue
             if(i + 1 < STR_LEN)
             {
-                pSharedPru0->neoPixels[i + 1] = Blue; // Also set the next pixel to blue
+                pSharedPru0->neoPixels[i + 1] = showColor_temp; // Also set the next pixel to blue
             }
             
             if(i + 2 < STR_LEN)
@@ -130,14 +150,21 @@ void setPixelColor(int color)
     {
         for(int i = 0; i < STR_LEN; i++)
         {
-            pSharedPru0->neoPixels[i] = Red;
+            pSharedPru0->neoPixels[i] = Teal;
         }
     }
     else if(color == 2)
     {
         for(int i = 0; i < STR_LEN; i++)
         {
-            pSharedPru0->neoPixels[i] = Green;
+            if(i % 2 == 0)
+            {
+                pSharedPru0->neoPixels[i] = BlueBright;
+            }
+            else 
+            {
+                pSharedPru0->neoPixels[i] = Blue;
+            }
         }
     }
     else
@@ -158,12 +185,12 @@ void clearStrip()
     }
 }
 
-void flashRed()
+void flashTeal()
 {
     color_flag = 1;
 }
 
-void flashGreen()
+void flashBlue()
 {
     color_flag = 2;
 }
