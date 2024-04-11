@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="UTF-8">
+	<title>ALLIN PROJECT</title>
+	<link rel='stylesheet' href='../stylesheets/control.css'></link>
+</head>
+<body>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="../status/index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Real Time Display
+                </a>
+            </li>
+            <li>
+                <a href="../control/index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Control Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="../stat/index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h2m2 0h14a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2zm5 4h10a2 2 0 012 2v4a2 2 0 01-2 2H10a2 2 0 01-2-2v-4a2 2 0 012-2z"></path>
+                    </svg>
+                    History Display
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="control-page">
+        <header style="margin-bottom: 38px;">
+            <h1>Control Dashboard</h1>
+            <div>by ALLIN</div>
+        </header>
+        <div class="control-section" id="volume-control">
+            <label for="volume">Buzzer Volume:</label>
+            <input type="range" id="volume" min="0" max="100">
+        </div>
+        <div class="control-section" id="music-mode">
+            <p>Enter Music Mode:</p>
+            <label><input type="radio" name="music-mode" value="1"> Mode 1</label>
+            <label><input type="radio" name="music-mode" value="2"> Mode 2</label>
+        </div>
+        <div class="control-section" id="music-mode">
+            <p>Exit Music Mode:</p>
+            <label><input type="radio" name="music-mode" value="1"> Mode 1</label>
+            <label><input type="radio" name="music-mode" value="2"> Mode 2</label>
+        </div>
+        <div class="control-section" id="light-control">
+            <p>Light Control:</p>
+            <label><input type="radio" name="light-control" value="on"> On</label>
+            <label><input type="radio" name="light-control" value="off"> Off</label>
+        </div>
+        <div class="control-section" id="traffic-light-control">
+            <p>Light Color Control:</p>
+            <label><input type="radio" name="traffic-light-control" value="red"> Red</label>
+            <label><input type="radio" name="traffic-light-control" value="yellow"> Yellow</label>
+            <label><input type="radio" name="traffic-light-control" value="green"> Green</label>
+        </div>
+        <div class="control-section" id="display-control">
+            <p>Display on Screen:</p>
+            <label><input type="radio" name="display-control" value="people"> People Number</label>
+            <label><input type="radio" name="display-control" value="temperature"> Temperature</label>
+        </div>
+        <div id="update-button">
+            <button onclick="updateSettings()">Update</button>
+        </div>
+        <!-- <div class="control-section" id="terminate-program">
+            <button>Terminate Program</button>
+        </div> -->
+    </div>
+    
+</body>
+    <script>
+        function updateSettings() {
+    // Get the user's choices
+    const volume = document.getElementById('volume').value;
+    const musicMode = document.querySelector('input[name="music-mode"]:checked').value;
+    const lightControl = document.querySelector('input[name="light-control"]:checked').value;
+    const trafficLightControl = document.querySelector('input[name="traffic-light-control"]:checked').value;
+    const displayControl = document.querySelector('input[name="display-control"]:checked').value;
+
+    // TODO: Update the settings based on the user's choices
+
+    console.log('Settings updated:', {
+        volume,
+        musicMode,
+        lightControl,
+        trafficLightControl,
+        displayControl,
+    });
+}
+    </script>
+
+</html>

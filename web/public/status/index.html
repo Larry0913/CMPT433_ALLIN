@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="UTF-8">
+	<title>ALLIN PROJECT</title>
+	<link rel='stylesheet' href='../stylesheets/status.css'></link>
+</head>
+<body>
+    
+    <nav>
+        <ul>
+            <li>
+                <a href="../status/index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Real Time Display
+                </a>
+            </li>
+            <li>
+                <a href="../control/index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Control Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="../stat/index.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h2m2 0h14a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2zm5 4h10a2 2 0 012 2v4a2 2 0 01-2 2H10a2 2 0 01-2-2v-4a2 2 0 012-2z"></path>
+                    </svg>
+                    History Display
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="content">
+        <header style="margin-bottom: 78px;">
+            <h1>REAL TIME DISPLAY</h1>
+            <div>by ALLIN</div>
+        </header>
+        <div id="data-display">
+            <div id="left-box">
+                <div class="box" id="temperature-display">
+                    <img src="/image/temperature-icon.png" alt="">
+                    <span>Temperature: <span id="temperature-value">--</span> °C</span>
+                </div>
+                <div class="box" id="room-count">
+                    <img src="/image/people-icon.png" alt="">
+                    <span>Current Room Count: <span id="room-count-value">--</span></span>
+                </div>
+                <div class="box" id="traffic-light-status">
+                    <img src="/image/light-icon.png" alt="">
+                    <span>Light Status: <span id="traffic-light"></span></span>
+                </div>
+            </div>
+            <div id="right-box">
+                <div class="box" id="board-status">
+                    <h2>Board's Status: </h2>
+                    <div id="status">Initializing...</div>
+                </div>
+                <div class="box" id="current-time">
+                    <h2>Current Time: </h2>
+                    <div id="time">--:--:--</div>
+                </div>
+                <div class="box" id="total-count">
+                    <h2>Daily Total Count: </h2>
+                    <div id="count">120</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 模拟数据更新
+    let uptime_seconds = 0; // 24 hours
+    function updateTotalCount() {
+    // TODO: Get the daily total count
+    const totalCount = getDailyTotalCount();
+
+    // Update the count element
+    const countDiv = document.getElementById('count');
+    if (countDiv) {
+        countDiv.textContent = totalCount;
+    }
+}
+    function updateTime() {
+    // Get the current date and time
+    const now = new Date();
+
+    // Format the time as HH:MM:SS
+    const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+
+    // Update the time element
+    const timeDiv = document.getElementById('time');
+    if (timeDiv) {
+        timeDiv.textContent = timeString;
+    }
+   }
+    function updateData() {
+        document.getElementById('temperature-value').textContent = '25'; // 假设温度
+        document.getElementById('room-count-value').textContent = '10'; // 假设人数
+        // 更新交通灯状态，我们这里就随机显示一个状态作为示例
+        const trafficLight = document.getElementById('traffic-light');
+        const trafficLightText = document.getElementById('traffic-light-text');
+        const states = ['red', 'yellow', 'green'];
+        const currentState = states[Math.floor(Math.random() * states.length)];
+        trafficLight.className = currentState;
+    }
+    function updateUptime() {
+        let hours = Math.floor(uptime_seconds / 3600);
+        let minutes = Math.floor((uptime_seconds % 3600) / 60);
+        let seconds = Math.round(uptime_seconds % 60); 
+
+        // Format the uptime string
+        let uptimeString = `Device up for: ${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} (H:M:S)`;
+
+        // Update the status element
+        const statusDiv = document.getElementById('status');
+        if (statusDiv) {
+            statusDiv.textContent = uptimeString;
+        }
+        uptime_seconds++;
+
+    }
+    setInterval(updateUptime, 1000);
+    setInterval(updateTotalCount, 60 * 1000);
+    updateUptime
+    // 每5秒更新一次数据
+    setInterval(updateData, 5000);
+    setInterval(updateTime, 1000);
+</script>
+</html>

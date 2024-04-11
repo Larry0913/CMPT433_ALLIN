@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<title>Demo Node.js to C App via UDP</title>
+	<link rel='stylesheet' href='/stylesheets/style.css'></link>
+</head>
+
+<body>
+	<header>
+		<h1>BeagleBone Beat-Box</h1>
+		<div>by ALLIN1</div>
+		<a href="./status/index.html">Go to new page</a>
+	</header>
+	
+	<form>
+		
+		<div id="content">
+			<div id="box2">
+				<div id="left-box">
+					<div id="modediv">
+						<h2>Drum Beat Selection</h2>
+						<p>Current drum beat mode is: <strong><span id="mode"></span></strong></p>
+						<p>
+							<input type="button" id="modeNone" value="None">
+							<input type="button" id="modeRock" value="Rock">
+							<input type="button" id="modeCustom" value="Custom">
+						</p>
+						<h3>Volume</h3>
+						<p>
+							<input type="button" id="volumeDown" value=" - ">
+							<input type="text" id="volumeText" value="---" size="3" readonly="readonly">
+							<input type="button" id="volumeUp" value=" + ">
+							(0 - 100)
+						</p>
+						<h3>Tempo</h3>
+						<p>
+							<input type="button" id="tempoDown" value = " - ">
+							<input type="text" id="tempoText" value="---" size="3" readonly="readonly">
+							<input type="button" id="tempoUp" value = " + ">
+							(40 - 300 BPM)
+						</p>
+
+						<h3>Play a Sound</h3>
+						<p>
+							<input type="button" id="base" value = "Base Drum">
+							<input type="button" id="snare" value = "Snare Drum">
+							<input type="button" id="hihat" value = "Hihat">
+							<input type="button" id="terminate" value = "Terminate Program">
+
+						</p>
+					</div>
+				</div>
+				<div id="right-box">
+					<h2>BeatBox's Status</h2>
+					<div id="status">None yet...</div>
+				</div>
+			</div>
+
+
+			<!-- <div id="error-box">
+				<h2>Server Error</h2>
+				<p>Server error detected. Please resolve error before continuing.</p>
+				<div><code id="error-text"></code></div>
+			</div> -->
+	
+		</div>
+	</form>
+	
+	<script src='/socket.io/socket.io.js' type='text/javascript'></script>
+	<script src='http://code.jquery.com/jquery-1.8.0.min.js' type='text/javascript'></script>
+	<script src='javascripts/udp_ui.js' type='text/javascript'></script>
+</body>
+</html>
