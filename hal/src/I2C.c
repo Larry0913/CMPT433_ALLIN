@@ -12,6 +12,7 @@
 #include "I2C.h"
 #include "trafficControl.h"
 #include "matrix.h"
+#include "tempSensor.h"
 
 static pthread_t I2C_id;
 
@@ -83,7 +84,9 @@ void *I2CDisplayThread(void *args)
         }
         else if(curMode == TEMP_MODE)
         {
-            showNum = 25;
+
+            showNum = (int) getTemp();
+            
         }
         else if(curMode == SMILE_MODE)
         {

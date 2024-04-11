@@ -9,6 +9,7 @@
 #include "I2C.h"
 #include "joystick.h"
 #include "trafficControl.h"
+#include "tempSensor.h"
 
 static pthread_t matrix_id;
 static int i2cFileDesc;
@@ -138,8 +139,8 @@ void setPeopleMode() {
 }
 
 void setTempMode() {
-    int temp = 25;
-    printf("Current mode is Temperature and it's %d degrees!\n", temp);
+    float temp = getTemp();
+    printf("Current mode is Temperature and it's %.2f°C!\n", temp);
     currentMode = TEMP_MODE;
     setModeNum();
 }

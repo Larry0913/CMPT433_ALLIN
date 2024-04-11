@@ -15,6 +15,7 @@
 #include "udp.h"
 #include "matrix.h"
 #include "digitDisplay.h"
+#include "tempSensor.h"
 
 
 int sockfd;
@@ -247,8 +248,7 @@ static void printHelp(void)
 static void printStatus(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
-    //sprintf(buffer, "BBG_ALLIN status uptime=%f, time=%d, mode=%d, ppl=%d, volume=%d, temp=%d\n", get_uptime(), getTime(), getModebyEnum(getCurrentMode()), getCurrentPeopleCount(), AudioMixer_getVolume(), getTemp());
-    sprintf(buffer, "BBG_ALLIN status uptime=%f, time=%d, mode=%d, ppl=%d, volume=%d\n", get_uptime(), getTime(), getModebyEnum(getCurrentMode()), getCurrentPeopleCount(), AudioMixer_getVolume());
+    sprintf(buffer, "BBG_ALLIN status uptime=%f, time=%d, mode=%d, ppl=%d, volume=%d, temp=%f\n", get_uptime(), getTime(), getModebyEnum(getCurrentMode()), getCurrentPeopleCount(), AudioMixer_getVolume(), getTemp());
     sendPacket(buffer);
 }
 
@@ -284,8 +284,7 @@ static void printPeopleCount(void)
 static void printTemp(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
-    //sprintf(buffer, "BBG_ALLIN temperature: %d\n", get());
-    sprintf(buffer, "BBG_ALLIN temperature: 25\n");
+    sprintf(buffer, "BBG_ALLIN temperature: %.2f°C\n", getTemp());
     sendPacket(buffer);
 }
 

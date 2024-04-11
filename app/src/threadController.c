@@ -14,6 +14,7 @@
 #include "neoPixel.h"
 #include "digitDisplay.h"
 #include "Leds.h"
+#include "tempSensor.h"
 
 int running_flag = 1;
 volatile void *pPruBase;
@@ -36,6 +37,7 @@ void startProgram()
     matrix_init();
     timeDisplay_init();
     neoPixel_init(pSharedPru0);
+    temp_init();
     leds_init();
 
 
@@ -46,6 +48,7 @@ void startProgram()
     matrix_wait();
     I2C_wait();
     timeDisplay_wait();
+    temp_wait();
     freePruMmapAddr(pPruBase);
 
 }

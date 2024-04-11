@@ -4,7 +4,7 @@
 // Store data of a single wave file read into memory.
 // Space is dynamically allocated; must be freed correctly!
 
-#define AUDIOMIXER_MAX_VOLUME 150
+#define AUDIOMIXER_MAX_VOLUME 100
 
 #define ENTER_MUSIC "wave-files/enter.wav"
 #define OUT_MUSIC "wave-files/out.wav"
