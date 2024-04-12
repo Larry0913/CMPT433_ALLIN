@@ -69,13 +69,13 @@ void *neoPixelThread(void *args)
         else if(color_flag == 1)
         {
             setPixelColor(color_flag); //Teal
-            sleepForMs(500);
+            sleepForMs(800);
             color_flag = 0;
         }
         else if(color_flag == 2)
         {
             setPixelColor(color_flag); //blue
-            sleepForMs(500);
+            sleepForMs(800);
             color_flag = 0;
         }
         else

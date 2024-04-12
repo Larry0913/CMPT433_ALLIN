@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <errno.h>
 
 #include "threadController.h"
 #include "trafficControl.h"
@@ -70,6 +71,11 @@ void *UDPServerThread(void *args)
     {
         memset(buffer, 0, BUFFER_MAX_SIZE);  // Clear the buffer
         int size = receivePacket(buffer);
+
+        if (size == -1 && errno == EBADF) {
+            perror("Socket operation failed with bad file descriptor");
+            break;  // Exit loop if socket is closed
+        }
 
         if(size > 0)
         {   
@@ -339,5 +345,5 @@ void stop(void)
     sprintf(buffer, "BBG_ALLIN Program terminating.\n");
     sendPacket(buffer);
     stopProgram();
-    exit(1);
+    exit(0);
 }

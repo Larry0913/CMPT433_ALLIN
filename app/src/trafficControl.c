@@ -41,7 +41,8 @@ void* trafficInThread(void* _arg){
             peopleCount += 1;
             AudioMixer_queueSound(&enterWave);
             flashTeal(); // neopixel turns Teal for 500ms when detect people in
-            sleepForMs(5500);
+            printf("Someone in!\n");
+            sleepForMs(5000);
             while(getMotionSensorStatus() == 1){ sleepForMs(50); } // busy wait until motion sensor back to 0
         }
     }
@@ -74,7 +75,8 @@ void* trafficOutThread(void* _arg){
                 peopleCount -= 1;
                 AudioMixer_queueSound(&outWave);
                 flashBlue(); //neopixel turns blue for 500ms when detect people out
-                sleepForMs(6500);
+                printf("Someone out!\n");
+                sleepForMs(6000);
             }
             sleepForMs(1000); // prevent repeated count
         }
