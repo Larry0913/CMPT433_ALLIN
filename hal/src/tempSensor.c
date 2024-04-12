@@ -11,7 +11,7 @@
 #include "utils.h"
 
 static pthread_t temp_id;
-float temp = 30;
+float temp = 0;
 
 static void *tempThread(void *args);
 
@@ -36,41 +36,40 @@ void temp_cleanup(void)
 static void *tempThread(void *args)
 {
     (void)args; 
+    // set i2c bus and open it 
+    int i2cFileDescriptor;
+    char *i2cBus = "/dev/i2c-2";
+    i2cFileDescriptor = open(i2cBus, O_RDWR);
+    if (i2cFileDescriptor < 0) {
+        printf("Unable to access the bus.\n");
+        //exit(1); 
+    }
+
+    
+
+        
     while (running_flag)
     {
-        // set i2c bus and open it 
-        int i2cFileDescriptor;
-        char *i2cBus = "/dev/i2c-2";
-        i2cFileDescriptor = open(i2cBus, O_RDWR);
-        if (i2cFileDescriptor < 0) {
-            printf("Unable to access the bus.\n");
-            //exit(1); 
-        }
-
         // Get the address of temperature sensor, and it already set to 0x19
         if (ioctl(i2cFileDescriptor, I2C_SLAVE, 0x19) < 0) {
             printf("Cannot find the device on the bus.\n");
             //exit(1); 
         }
-
         // Select configuration register
-        char sensorConfig[3] = {0x01, 0x00, 0x00}; 
-        write(i2cFileDescriptor, sensorConfig, 3);
 
+        sleepForMs(5);
+        char sensorConfig[3] = {0x01, 0x00, 0x00};
+        write(i2cFileDescriptor, sensorConfig, 3);
         // Select resolution rgister
         char resolutionConfig[2] = {0x08, 0x03}; 
         write(i2cFileDescriptor, resolutionConfig, 2);
-        
-        sleepForMs(5);
-
         // temp register address
         char tempRegAddr = 0x05; 
         write(i2cFileDescriptor, &tempRegAddr, 1);
-        
         char tempData[2] = {0};
         int temp_flag = 1;
         if (read(i2cFileDescriptor, tempData, 2) != 2) {
-            printf("Temperature read failed.\n");
+            //printf("Temperature read failed.\n");
             temp_flag = 0;
             //exit(1); 
         }
@@ -88,6 +87,7 @@ static void *tempThread(void *args)
             }    
             
         }
+        //sleepForMs(1000);
         //printf("temperature is %f\n", temp);
     }
     pthread_exit(NULL);

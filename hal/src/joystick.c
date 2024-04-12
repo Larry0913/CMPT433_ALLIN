@@ -69,7 +69,7 @@ void *joystickThread(void *args)
         else if (isPressed(RIGHT))
         {
             stopProgram();
-            exit(1);
+            exit(0);
         }
     }
     

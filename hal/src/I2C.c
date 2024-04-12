@@ -90,6 +90,7 @@ void *I2CDisplayThread(void *args)
         }
         else if(curMode == SMILE_MODE)
         {
+            //printf("000\n");
             writeToFile(I2C_LEFT_DIGIT_PATH, OFF_I2C);
             writeToFile(I2C_RIGHT_DIGIT_PATH, OFF_I2C);
             continue;
@@ -106,20 +107,24 @@ void *I2CDisplayThread(void *args)
         if(leftDigit > 0)
         {
             // Set both pins off
+            //printf("111\n");
             writeToFile(I2C_LEFT_DIGIT_PATH, OFF_I2C);
             writeToFile(I2C_RIGHT_DIGIT_PATH, OFF_I2C);
 
             // Display left digit
+            
             writeI2cReg(i2cFileDesc, REG_OUTA, bottomDigits[leftDigit]);
             writeI2cReg(i2cFileDesc, REG_OUTB, topDigits[leftDigit]);
 
             // Turn on left digit
+            //printf("222\n");
             writeToFile(I2C_LEFT_DIGIT_PATH, ON);
 
             sleepForMs(5);
         }
 
         // Set both pins off
+        //printf("333\n");
 		writeToFile(I2C_LEFT_DIGIT_PATH, OFF_I2C);
         writeToFile(I2C_RIGHT_DIGIT_PATH, OFF_I2C);
 
@@ -128,13 +133,14 @@ void *I2CDisplayThread(void *args)
 		writeI2cReg(i2cFileDesc, REG_OUTB, topDigits[rightDigit]);
 
 		// Turn on right digit
+        //printf("444\n");
 		writeToFile(I2C_RIGHT_DIGIT_PATH, ON);
 
 		sleepForMs(5);
 
 
     }
-
+    //printf("555\n");
     writeToFile(I2C_LEFT_DIGIT_PATH, OFF_I2C);
     writeToFile(I2C_RIGHT_DIGIT_PATH, OFF_I2C);
 
