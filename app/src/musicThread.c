@@ -158,12 +158,12 @@ void AudioMixer_queueSound(wavedata_t *pSound)
 {
 	
 	// Ensure we are only being asked to play "good" sounds:
-	if (running_flag)
-	{
-		sleepForMs(200);
-		assert(pSound->numSamples > 0);
-		assert(pSound->pData);
-	}
+	// if (running_flag)
+	// {
+	// 	sleepForMs(200);
+	// 	assert(pSound->numSamples > 0);
+	// 	assert(pSound->pData);
+	// }
 
 	pthread_mutex_lock(&audioMutex); // Lock for thread safety
     // Search for an empty sound bite slot:

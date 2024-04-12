@@ -161,8 +161,10 @@ static int receivePacket(char *packet)
 
 static int sendPacket(char *packet)
 {
+    size_t packet_len = strlen(packet);
+
     unsigned int sin_len = sizeof(cliaddr);
-    int byteTx = sendto(sockfd, (const char *)packet, BUFFER_MAX_SIZE - 1, 0, (const struct sockaddr *) &cliaddr, sin_len); 
+    int byteTx = sendto(sockfd, (const char *)packet, packet_len, 0, (const struct sockaddr *) &cliaddr, sin_len); 
 
     if (byteTx < 0)
     {
@@ -248,7 +250,8 @@ static void printHelp(void)
 static void printStatus(void)
 {
     char buffer[BUFFER_MAX_SIZE] = {0};
-    sprintf(buffer, "BBG_ALLIN status uptime=%f, time=%d, mode=%d, ppl=%d, volume=%d, temp=%f\n", get_uptime(), getTime(), getModebyEnum(getCurrentMode()), getCurrentPeopleCount(), AudioMixer_getVolume(), getTemp());
+    snprintf(buffer, BUFFER_MAX_SIZE, "BBG_ALLIN status uptime=%f, time=%d, mode=%d, ppl=%d, volume=%d, temp=%f",
+            get_uptime(), getTime(), getModebyEnum(getCurrentMode()), getCurrentPeopleCount(), AudioMixer_getVolume(), getTemp());
     sendPacket(buffer);
 }
 

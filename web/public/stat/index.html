@@ -15,23 +15,23 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    Real Time Display
+                    Dashboard
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="../control/index.html">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
                     Control Dashboard
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="../stat/index.html">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h2m2 0h14a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2zm5 4h10a2 2 0 012 2v4a2 2 0 01-2 2H10a2 2 0 01-2-2v-4a2 2 0 012-2z"></path>
                     </svg>
-                    History Display
+                    Data Visualization
                 </a>
             </li>
         </ul>
@@ -46,8 +46,12 @@
             <h2 id="hourly-title">Click on a day to see hourly data</h2>
             <canvas id="hourly-chart"></canvas>
         </div>
+        <div class="box" id="minute-average" style="display:none;">
+            <h2 id="minute-title">Click on a hour to see minute data</h2>
+            <canvas id="minute-chart"></canvas>
+        </div>
     </div>
-
+    
     <script src="../javascripts/chart.js"></script>
 
 </body>

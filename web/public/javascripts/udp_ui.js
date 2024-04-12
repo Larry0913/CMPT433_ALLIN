@@ -9,49 +9,18 @@ $(document).ready(function() {
 
 	window.setInterval(function() {updateTime()},1000);
 
-	$('#base').click(function(){
-		sendCommandViaUDP("play base\n");
-	});
-	$('#snare').click(function(){
-		sendCommandViaUDP("play snare\n");
-	});
-	$('#hihat').click(function(){
-		sendCommandViaUDP("play hiHat\n");
-	});
-
-
-	$('#modeRock').click(function(){
-		sendCommandViaUDP("play rock\n");
-	});
-	$('#modeNone').click(function(){
-		sendCommandViaUDP("play none\n");
-	});
-	$('#modeCustom').click(function(){
-		sendCommandViaUDP("play customize\n");
-	});
 	
-	$('#volumeDown').click(function(){
-		sendCommandViaUDP("volume decrease\n");
-	});
-	$('#volumeUp').click(function(){
-		sendCommandViaUDP("volume increases\n");
-	});
-	$('#tempoDown').click(function(){
-		sendCommandViaUDP("tempo decrease\n");
-	});
-	$('#tempoUp').click(function(){
-		sendCommandViaUDP("tempo increase\n");
-	});
 	$('#terminate').click(function(){
-		sendCommandViaUDP("stop\n");
+		sendCommandViaUDP("shutdown\n");
 	});
+
 
 	socket.on('commandReply', function(result) {
 		hideError(); 
 		clearTimeout(timeoutUDP);
 		result = result.replace(/[^ -~]+/g, "").trim();
 		console.log(result);
-		if (result.startsWith('bbg_allin')) {
+		if (result.startsWith('BBG_ALLIN')) {
 			const parts = result.split(' ');
 			const commandType = parts[1];
 			const data = {};
@@ -83,6 +52,50 @@ $(document).ready(function() {
 
 
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const increaseButton = document.getElementById('volumeUp');
+
+    increaseButton.addEventListener('click', function() {
+        sendCommandViaUDP("volume increase\n");
+        console.log("Increase volume command sent.");
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const decreaseButton = document.getElementById('volumeDown');
+
+    decreaseButton.addEventListener('click', function() {
+        sendCommandViaUDP("volume decrease\n");
+        console.log("decrease volume command sent.");
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const radioButtons = document.querySelectorAll('[name="displayMode"]');
+
+    radioButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 根据按钮的 value 发送相应的命令
+            switch(button.value) {
+                case '0':
+                    sendCommandViaUDP("ppl\n");
+                    console.log("Set mode to People Number");
+                    break;
+                case '1':
+                    sendCommandViaUDP("temp\n");
+                    console.log("Set mode to Temperature");
+                    break;
+                case '2':
+                    sendCommandViaUDP("smile\n");
+                    console.log("Set mode to Smile");
+                    break;
+                default:
+                    console.error("Unknown mode");
+                    break;
+            }
+        });
+    });
+});
+
 function hideError() {
     $('#error-box').hide();
 }
@@ -103,34 +116,91 @@ function showError(errorMessage) {
 function updateTime(){
 	sendCommandViaUDP("status\n");
 }
+function updatePageCount(data) {
+    // 更新页面元素
+    const pplElement = document.getElementById('room-count-value');
+    pplElement.textContent = data.totalcount;
+}
+function updateTotalCountDisplay(totalcount) {
+    const totalCountElement = document.getElementById('count');
+    totalCountElement.textContent = totalcount;
+}
+function updateCounts(data) {
+    const transaction = db.transaction(["countData"], "readwrite");
+    const store = transaction.objectStore("countData");
+    const request = store.get(1); // 
+    request.onsuccess = function(event) {
+        const countData = event.target.result;
+		console.log(countData);
+
+        if (countData) {
+            if (data.ppl > countData.lastcount) {
+                countData.totalcount += 1; // 增加总计数
+            }
+            countData.lastcount = data.ppl; // 更新上一次的计数
+            store.put(countData); // 保存更新
+        }
+    };
+
+    request.onerror = function(event) {
+        console.error("Error updating counts: ", event.target.errorCode);
+    };
+}
 
 function updateStats(data, commandType) {
-    // Update the mode
-    const modeSpan = document.getElementById('mode');
-    // Update the volume
-    const volumeText = document.getElementById('volumeText');
-    // Update the tempo
-    const tempoText = document.getElementById('tempoText'); // Fixed typo here from 'temppoText' to 'tempoText'
 
     if (commandType === 'status') {
-        // Mapping mode numbers to mode names, assuming mode 0=None, 1=Rock, 2=Custom
-        const modeNames = {
-            0: 'None',
-            1: 'Rock',
-            2: 'Custom'
-        };
+		console.log(data);
+		// Update status based on mode
+        const modeMapping = {
+			0: 'ppl-display',
+			1: 'temperature-display',
+			2: 'smile-display'
+		};
+	
+		if (data.mode !== undefined) {
+			const modePart = data.mode.match(/\d+/g);
+			if (modePart) {	
+				let oneDigit = modePart.join('').substring(0, 1);
+				oneDigit = parseInt(oneDigit, 10);
+				const selectedDisplay = modeMapping[oneDigit];
+				console.log(selectedDisplay)
+				if (selectedDisplay) {
+					document.getElementById(selectedDisplay).checked = true;
+				}
 
-        if (modeSpan && data.mode !== undefined) {
-            modeSpan.textContent = modeNames[data.mode] || 'Unknown';
-        }
+			}
 
-        if (volumeText && data.volume !== undefined) {
-            volumeText.value = data.volume.toString();
-        }
+			
+		}
 
-        if (tempoText && data.bpm !== undefined) {
-            tempoText.value = data.bpm.toString();
+        // Update temperature value, round to two decimal places
+		const temperatureElement = document.getElementById('temperature-value');
+        if (data.temp !== undefined) {
+            temperatureElement.textContent = parseFloat(data.temp).toFixed(2) + " °C";
         }
+		
+		const volumeText = document.getElementById('volumeText');
+		if (data.volume !== undefined) {
+			const numericPart = data.volume.match(/\d+/g);
+			if (numericPart) {	
+				let firstThreeDigits = numericPart.join('').substring(0, 3);
+				firstThreeDigits = parseInt(firstThreeDigits, 10);
+				volumeText.value = firstThreeDigits;
+			}
+		}
+		
+		// Update people count
+		const pplElement = document.getElementById('room-count-value');
+
+		if (data.ppl !== undefined) {
+			
+			updateCounts({ ppl: data.ppl });
+			pplElement.textContent = data.ppl;
+			readTotalCount(function(totalcount) {
+				document.getElementById('count').textContent = totalcount;
+			});		
+		}
 
         // Calculate and update uptime
         if (data.uptime !== undefined) {
@@ -151,18 +221,30 @@ function updateStats(data, commandType) {
 
     }
 }
-function updateUptime(uptime_seconds) {
-	let hours = Math.floor(uptime_seconds / 3600);
+function updateUptime(uptimeString) {
+    // Remove any non-numeric characters (except decimal point and negative sign)
+    uptimeString = uptimeString.replace(/[^\d.-]/g, '');
+
+    // Convert to a number
+    let uptime_seconds = parseFloat(uptimeString);
+
+    // Check if the conversion was successful
+    if (isNaN(uptime_seconds)) {
+        console.error('Invalid uptime value:', uptimeString);
+        return; // Exit the function if conversion fails
+    }
+
+    let hours = Math.floor(uptime_seconds / 3600);
     let minutes = Math.floor((uptime_seconds % 3600) / 60);
-	let seconds = Math.round(uptime_seconds % 60); 
+    let seconds = Math.round(uptime_seconds % 60);
 
     // Format the uptime string
-    let uptimeString = `Device up for: ${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} (H:M:S)`;
+    let formattedUptime = `Device up for: ${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} (H:M:S)`;
 
     // Update the status element
-    const statusDiv = document.getElementById('status');
+    const statusDiv = document.getElementById('board-status');
     if (statusDiv) {
-        statusDiv.textContent = uptimeString;
+        statusDiv.textContent = formattedUptime;
     }
 }
 

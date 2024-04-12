@@ -40,10 +40,6 @@
             <h1>Control Dashboard</h1>
             <div>by ALLIN</div>
         </header>
-        <div class="control-section" id="volume-control">
-            <label for="volume">Buzzer Volume:</label>
-            <input type="range" id="volume" min="0" max="100">
-        </div>
         <div class="control-section" id="music-mode">
             <p>Enter Music Mode:</p>
             <label><input type="radio" name="music-mode" value="1"> Mode 1</label>
@@ -54,21 +50,11 @@
             <label><input type="radio" name="music-mode" value="1"> Mode 1</label>
             <label><input type="radio" name="music-mode" value="2"> Mode 2</label>
         </div>
-        <div class="control-section" id="light-control">
-            <p>Light Control:</p>
-            <label><input type="radio" name="light-control" value="on"> On</label>
-            <label><input type="radio" name="light-control" value="off"> Off</label>
-        </div>
-        <div class="control-section" id="traffic-light-control">
-            <p>Light Color Control:</p>
-            <label><input type="radio" name="traffic-light-control" value="red"> Red</label>
-            <label><input type="radio" name="traffic-light-control" value="yellow"> Yellow</label>
-            <label><input type="radio" name="traffic-light-control" value="green"> Green</label>
-        </div>
         <div class="control-section" id="display-control">
             <p>Display on Screen:</p>
             <label><input type="radio" name="display-control" value="people"> People Number</label>
             <label><input type="radio" name="display-control" value="temperature"> Temperature</label>
+            <label><input type="radio" name="display-control" value="temperature"> Smile</label>
         </div>
         <div id="update-button">
             <button onclick="updateSettings()">Update</button>
@@ -98,6 +84,10 @@
         displayControl,
     });
 }
+
     </script>
+    <script src='/socket.io/socket.io.js' type='text/javascript'></script>
+	<script src='http://code.jquery.com/jquery-1.8.0.min.js' type='text/javascript'></script>
+	<script src='../javascripts/udp_ui.js' type='text/javascript'></script>
 
 </html>

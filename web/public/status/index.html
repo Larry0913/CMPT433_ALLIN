@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
 	<title>ALLIN PROJECT</title>
+    <script src="../javascripts/db.js"></script>
 	<link rel='stylesheet' href='../stylesheets/status.css'></link>
 </head>
 <body>
@@ -14,31 +15,31 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
-                    Real Time Display
+                    Dashboard
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="../control/index.html">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
                     Control Dashboard
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="../stat/index.html">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13h2m2 0h14a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4a2 2 0 002 2zm5 4h10a2 2 0 012 2v4a2 2 0 01-2 2H10a2 2 0 01-2-2v-4a2 2 0 012-2z"></path>
                     </svg>
-                    History Display
+                    Data Visualization
                 </a>
             </li>
         </ul>
     </nav>
     <div id="content">
         <header style="margin-bottom: 78px;">
-            <h1>REAL TIME DISPLAY</h1>
-            <div>by ALLIN</div>
+            <h1>GatekeeperInsights Dashboard</h1>
+            <div > <strong>By CMPT433_ALLIN</strong></div>
         </header>
         <div id="data-display">
             <div id="left-box">
@@ -54,37 +55,52 @@
                     <img src="/image/light-icon.png" alt="">
                     <span>Light Status: <span id="traffic-light"></span></span>
                 </div>
+                <div class="box">
+                    <img src="/image/volume.png" alt="">
+                    <h3 style="margin-right: 15px;">Volume</h3>
+                    <p>
+                        <input type="button" id="volumeDown" value=" - ">
+                        <input type="text" id="volumeText" value="---" size="3" readonly="readonly">
+                        <input type="button" id="volumeUp" value=" + ">
+                        (0 - 150)
+                    </p>
+                </div>
+                <div style="font-size: 18px;" class="box" id="display-control">
+                    <p style="margin-right: 10px">Display on Screen:</p>
+                    <label style="margin-right: 10px"><input type="radio" name="displayMode" id="ppl-display" value="0"> People Number</label>
+                    <label style="margin-right: 10px"><input type="radio" name="displayMode" id="temperature-display" value="1"> Temperature</label>
+                    <label style="margin-right: 10px"><input type="radio" name="displayMode" id="smile-display" value="2"> Smile</label>
+                </div>
             </div>
             <div id="right-box">
-                <div class="box" id="board-status">
+                <div class="box" id="">
                     <h2>Board's Status: </h2>
-                    <div id="status">Initializing...</div>
+                    <div style="margin-left:10px; font-size:18px" id="board-status">Initializing...</div>
                 </div>
                 <div class="box" id="current-time">
                     <h2>Current Time: </h2>
-                    <div id="time">--:--:--</div>
+                    <div style="margin-left:10px; font-size:18px" id="time">--:--:--</div>
                 </div>
                 <div class="box" id="total-count">
-                    <h2>Daily Total Count: </h2>
-                    <div id="count">120</div>
+                    <h2>Visitor Traffic for Today: </h2>
+                    <div style="margin-left:10px;font-size:18px" id="count"> --- </div>
+                </div>
+                <div class="box" id="display-control">
+                    <input style="padding: 10px; font-weight: bold; height: 50px;font-size: 18px;" type="button" id="terminate" value = "Terminate Program">
                 </div>
             </div>
+            
+        </div>
+        <div id="error-box">
+            <h2>Server Error</h2>
+            <p>Server error detected. Please resolve error before continuing.</p>
+            <div><code id="error-text"></code></div>
         </div>
     </div>
 </body>
 <script>
-    // 模拟数据更新
-    let uptime_seconds = 0; // 24 hours
-    function updateTotalCount() {
-    // TODO: Get the daily total count
-    const totalCount = getDailyTotalCount();
+    let uptime_seconds = 0; 
 
-    // Update the count element
-    const countDiv = document.getElementById('count');
-    if (countDiv) {
-        countDiv.textContent = totalCount;
-    }
-}
     function updateTime() {
     // Get the current date and time
     const now = new Date();
@@ -98,37 +114,32 @@
         timeDiv.textContent = timeString;
     }
    }
-    function updateData() {
-        document.getElementById('temperature-value').textContent = '25'; // 假设温度
-        document.getElementById('room-count-value').textContent = '10'; // 假设人数
-        // 更新交通灯状态，我们这里就随机显示一个状态作为示例
-        const trafficLight = document.getElementById('traffic-light');
-        const trafficLightText = document.getElementById('traffic-light-text');
-        const states = ['red', 'yellow', 'green'];
-        const currentState = states[Math.floor(Math.random() * states.length)];
-        trafficLight.className = currentState;
+   function updateData() {
+    const trafficLight = document.getElementById('traffic-light');
+    const trafficLightText = document.getElementById('traffic-light-text');
+
+    const roomCountElement = document.getElementById('room-count-value');
+    const roomCount = parseInt(roomCountElement.textContent, 10); // 将文本转换为整数
+
+    let currentState;
+    if (roomCount < 4) {
+        currentState = 'green';  
+    } else if (roomCount < 8) {
+        currentState = 'yellow'; 
+    } else {
+        currentState = 'red';   
     }
-    function updateUptime() {
-        let hours = Math.floor(uptime_seconds / 3600);
-        let minutes = Math.floor((uptime_seconds % 3600) / 60);
-        let seconds = Math.round(uptime_seconds % 60); 
 
-        // Format the uptime string
-        let uptimeString = `Device up for: ${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} (H:M:S)`;
-
-        // Update the status element
-        const statusDiv = document.getElementById('status');
-        if (statusDiv) {
-            statusDiv.textContent = uptimeString;
-        }
-        uptime_seconds++;
-
-    }
-    setInterval(updateUptime, 1000);
-    setInterval(updateTotalCount, 60 * 1000);
-    updateUptime
-    // 每5秒更新一次数据
-    setInterval(updateData, 5000);
+    // 更新交通灯的状态显示
+    trafficLight.className = currentState;
+}
+    
+    setInterval(updateData, 1000);
     setInterval(updateTime, 1000);
+
+    
 </script>
+    <script src='/socket.io/socket.io.js' type='text/javascript'></script>
+	<script src='http://code.jquery.com/jquery-1.8.0.min.js' type='text/javascript'></script>
+	<script src='../javascripts/udp_ui.js' type='text/javascript'></script>
 </html>
