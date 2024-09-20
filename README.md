@@ -77,7 +77,7 @@ GatekeeperInsights is a customer traffic monitoring and analysis system designed
 - Use the joystick for mode switching and display control.
 
 Authors:
-Xiaohong Xu
-Lingjie Li
-Lihao Qian
-Haowei Hu
+- Xiaohong Xu
+- Lingjie Li
+- Lihao Qian
+- Haowei Hu
